@@ -24,18 +24,82 @@ public class TeamBlue {
     public Group root = new Group();
     public Army armyBlue;
     boolean isReady = false;
+    MenuButton warriorButton = new MenuButton("Warrior", null, null);
+    MenuButton armorButton = new MenuButton("Armor", null, null);
+    MenuButton weaponButton = new MenuButton("Weapon", null, null);
 
     public void addWarriorPanel() {
 
-        MenuButton warriorButton = new MenuButton("Warrior", null, null);
         for (Army armies : Army.values()) {
             MenuItem newItem = new MenuItem(armies.getWarrior());
             warriorButton.getItems().add(newItem);
         }
 
         HBox hbox = new HBox(warriorButton);
-        hbox.setLayoutX(45);
-        hbox.setLayoutY(190);
+        hbox.setLayoutX(40);
+        hbox.setLayoutY(120);
+        root.getChildren().addAll(hbox);
+        pickWarrior();
+    }
+
+    public void pickWarrior(){
+//        menuItem1.setOnAction(event -> {
+//            army.weapon = "Sztylet";
+//            army.attackStats += 3;
+//            army.attackSpeedStats += 0.2;
+//            isReady=true;
+//        });
+
+            warriorButton.getItems().forEach(
+                    menuItem -> menuItem.setOnAction(
+                            event -> {
+                                armyBlue.setWarrior(menuItem.getText());
+                             //   armyBlue.setHealthPoints();
+                             //   armyBlue.setAgility();
+                             //   armyBlue.setAttackSpeed();
+                                armyBlue.setArmorStats(0);
+                                armyBlue.setMorale(1);
+                                armyBlue.setAttack(0);
+                                isReady = true;
+                            }
+                    ));
+
+    }
+
+
+    public void addArmorPanel() {
+        try {
+            for (ArmorTypes armors : ArmorTypes.values()) {
+                if (armors.getWarrior().equals(armyBlue.getWarrior())) {
+                    MenuItem newItem = new MenuItem(armors.getArmor());
+                    armorButton.getItems().add(newItem);
+                }
+            }
+        } catch(NullPointerException e){
+                armorButton.getItems().add(new MenuItem("Pick a warrior"));
+        }
+
+        HBox hbox = new HBox(armorButton);
+        hbox.setLayoutX(140);
+        hbox.setLayoutY(120);
+        root.getChildren().addAll(hbox);
+    }
+
+    public void addWeaponPanel() {
+        try {
+            for (WeaponTypes weapons : WeaponTypes.values()) {
+                if (weapons.getWarrior().equals(armyBlue.getWarrior())) {
+                    MenuItem newItem = new MenuItem(weapons.getWeapon());
+                    armorButton.getItems().add(newItem);
+                }
+            }
+        } catch(NullPointerException e){
+            weaponButton.getItems().add(new MenuItem("Pick a warrior"));
+        }
+
+        HBox hbox = new HBox(weaponButton);
+        hbox.setLayoutX(240);
+        hbox.setLayoutY(120);
         root.getChildren().addAll(hbox);
     }
 
@@ -76,6 +140,8 @@ public class TeamBlue {
 
         this.root = root;
         addWarriorPanel();
+        addArmorPanel();
+        addWeaponPanel();
         return root;
     }
 }

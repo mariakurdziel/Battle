@@ -7,15 +7,15 @@ public enum Army {
     TEUTONIC("Teutonic Knights", 150.0, 0.1, 2.0),
     SAMURAI("Samurai", 100, 0.13, 2.4);
 
-    private final String warrior;
+    private String warrior;
     private String armor;
     private String weapon;
     private double healthPoints;
     private double agility;
     private double attackSpeed;
-    private double attack = 0;
-    private double armorStats = 0;
-    private double morale = 1;
+    private double attack;
+    private double armorStats;
+    private double morale;
 
     Army(String warrior, double healthPoints, double agility, double attackSpeed){
         this.warrior = warrior;
@@ -26,6 +26,11 @@ public enum Army {
 
     public String getWarrior() {
         return this.warrior;
+    }
+
+
+    public void setWarrior(String warrior) {
+        this.warrior = warrior;
     }
 
     public double getHealthPoints() {
