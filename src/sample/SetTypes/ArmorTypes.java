@@ -1,6 +1,6 @@
 package sample.SetTypes;
 
-public enum ArmatureTypes{
+public enum ArmorTypes {
 
     LIGHT_LEATHER("Viking", "Light Leather", 1.0, -0.01),
     HEAVY_LEATHER("Viking", "Heavy Leather", 1.5, -0.02),
@@ -12,14 +12,14 @@ public enum ArmatureTypes{
     YOROI("Samurai", "Yoroi", 3.0, -0.05);
 
     private final String warrior;
-    private final String armature;
-    private final double armor;
+    private final String armor;
+    private final double armorStats;
     private final double agility;
 
-    ArmatureTypes(String warrior, String armature, double armor, double agility){
+    ArmorTypes(String warrior, String armor, double armorStats, double agility){
         this.warrior = warrior;
-        this.armature = armature;
         this.armor = armor;
+        this.armorStats = armorStats;
         this.agility = agility;
     }
 
@@ -27,12 +27,12 @@ public enum ArmatureTypes{
         return this.warrior;
     }
 
-    public String getArmature() {
-        return this.armature;
+    public String getArmor() {
+        return this.armor;
     }
 
-    public double getArmor() {
-        return this.armor;
+    public double getArmorStats() {
+        return this.armorStats;
     }
 
     public double getAgility() {
