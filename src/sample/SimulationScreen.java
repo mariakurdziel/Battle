@@ -135,9 +135,9 @@ public class SimulationScreen extends Application {
         n7.setY(560);
         n7.setFont(Font.font(16));
         Text n8 = new Text("Atak: "+ army2.attack);
-        t8.setX(950);
-        t8.setY(580);
-        t8.setFont(Font.font(16));
+        n8.setX(950);
+        n8.setY(580);
+        n8.setFont(Font.font(16));
         Text n9= new Text("Szybkość ataku: "+ army2.speed_of_attack);
         n9.setX(950);
         n9.setY(600);
