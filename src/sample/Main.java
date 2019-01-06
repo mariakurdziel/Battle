@@ -1,29 +1,96 @@
 package sample;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
-import java.awt.*;
-
-import static java.awt.Color.RED;
 
 public class Main extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
+    Stage stage=new Stage();
+    Army army1;
+    Army army2;
+    boolean ready=false;
 
-        Symulation x =new Symulation();
-        x.start(primaryStage);
+    public void btnset(javafx.scene.control.Button btn, String title, double x, double y){
+        btn.setText(title);
+        btn.setLayoutX(x);
+        btn.setLayoutY(y);
+        btn.setPrefSize(170,40);
     }
-
 
     public static void main(String[] args) {
-        launch(args);
 
+        launch(args);
     }
-}
+
+        @Override
+        public void start(final Stage stage) throws Exception {
+
+            Group root1 = new Group();
+            Group root2 = new Group();
+            Group root3 = new Group();
+            Group root4 = new Group();
+
+            new Symulation().createScene(root1);
+            new Options().createScene(root2);
+            Army1Settings arm1= new Army1Settings();
+            arm1.createScene(root3);
+            Army2Settings arm2= new Army2Settings();
+            arm2.createScene(root4);
+
+            SimulationScreen sym=new SimulationScreen();
+
+
+            final Scene scene1 = new Scene(root1, 600, 400);
+            final Scene scene2 = new Scene(root2, 600, 400);
+            final Scene scene3 = new Scene(root3, 600,  400);
+            final Scene scene4 = new Scene(root4, 600,  400);
+
+
+            stage.setScene(scene1);
+            stage.setTitle("Symulation");
+
+            javafx.scene.control.Button button1 = new javafx.scene.control.Button();
+            btnset(button1,"Start",215,200);
+            button1.setOnAction(event -> {
+                stage.setScene(scene2);stage.setTitle("Settings");});
+            root1.getChildren().addAll(button1);
+
+            javafx.scene.control.Button button2= new javafx.scene.control.Button();
+            btnset(button2,"Army1",215,130);
+
+            button2.setOnAction(event -> {stage.setScene(scene3); stage.setTitle("Army 1");});
+            root2.getChildren().addAll(button2);
+
+            javafx.scene.control.Button button3= new javafx.scene.control.Button();
+            btnset(button3,"Army2",215,200);
+
+            button3.setOnAction(event ->{ stage.setScene(scene4); stage.setTitle("Army 2");});
+            root2.getChildren().addAll(button3);
+
+            javafx.scene.control.Button button4= new javafx.scene.control.Button();
+            btnset(button4,"OK",215,260);
+            button4.setOnAction(event ->{ stage.setScene(scene2);stage.setTitle("Settings"); army1=arm1.setArmy(army1); sym.setArmy1(army1);});
+            root3.getChildren().addAll(button4);
+
+            javafx.scene.control.Button button5= new javafx.scene.control.Button();
+            btnset(button5,"OK",215,260);
+            button5.setOnAction(event -> { stage.setScene(scene2);stage.setTitle("Settings");army2=arm2.setArmy(army2); sym.setArmy2(army2); });
+            root4.getChildren().addAll(button5);
+
+            javafx.scene.control.Button button6= new javafx.scene.control.Button();
+            btnset(button6,"Start Simulation",215,270);
+            button6.setOnAction(event -> {
+                try {
+                    sym.start(stage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            root2.getChildren().addAll(button6);
+
+            stage.show();
+
+        }
+    }
+
