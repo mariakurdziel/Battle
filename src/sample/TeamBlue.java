@@ -26,7 +26,9 @@ public class TeamBlue {
     public Army armyBlue = new Army("","","", 0,0,0);
     boolean isReady = false;
     MenuButton warriorButton = new MenuButton("Warrior", null, null);
-  
+    MenuButton armorButton = new MenuButton("Armor", null, null);
+    MenuButton weaponButton = new MenuButton("Weapon", null, null);
+
     public void addWarriorPanel() {
 
         for (ArmyTypes armies : ArmyTypes.values()) {
@@ -65,9 +67,7 @@ public class TeamBlue {
 
 
     public void addArmorPanel() {
-        MenuButton armorButton = new MenuButton("Armor", null, null);
         try {
-
             for (ArmorTypes armors : ArmorTypes.values()) {
                     MenuItem newItem = new MenuItem(armors.getArmor());
                     armorButton.getItems().add(newItem);
@@ -81,9 +81,29 @@ public class TeamBlue {
         // wrzucic informacje o aktualnie wybranym wojowniku po prawej!
         // w jakiegos cos, metode moze czy zmienne stale WGL CALY INTERFEJS!!!
         // BEZ HARDKODOWANIA
-
+        hbox.setLayoutX(140);
+        hbox.setLayoutY(120);
         root.getChildren().addAll(hbox);
-        addWeaponPanel();
+        pickArmor();
+    }
+
+    public void pickArmor(){
+        try {
+            armorButton.getItems().forEach(
+                    menuItem -> menuItem.setOnAction(
+                            event -> {
+                                armyBlue.setArmor(menuItem.getText());
+                                for (ArmorTypes types : ArmorTypes.values()) { // mozliwa optymalizacja?
+                                    if(types.getWarrior() == armyBlue.getWarrior() && types.getArmor() == armyBlue.getArmor()){
+                                        armyBlue.setArmorStats(types.getArmorStats());
+                                        armyBlue.setAgility(armyBlue.getAgility() + types.getAgility());
+                                    }
+                                }
+                            }
+                    ));
+        } catch (Exception e){
+            System.out.println("ERROR: Armor picking incorrect.");
+        }
     }
 
     public void addWeaponPanel() {
@@ -101,6 +121,26 @@ public class TeamBlue {
         hbox.setLayoutX(240);
         hbox.setLayoutY(120);
         root.getChildren().addAll(hbox);
+        pickWeapon();
+    }
+
+    public void pickWeapon(){
+        try {
+            weaponButton.getItems().forEach(
+                    menuItem -> menuItem.setOnAction(
+                            event -> {
+                                armyBlue.setWeapon(menuItem.getText());
+                                for (WeaponTypes types : WeaponTypes.values()) { // mozliwa optymalizacja?
+                                    if(types.getWarrior() == armyBlue.getWarrior() && types.getWeapon() == armyBlue.getWeapon()){
+                                        armyBlue.setAttack(types.getAttack());
+                                        armyBlue.setAttackSpeed(armyBlue.getAttackSpeed() + types.getAttackSpeed());
+                                    }
+                                }
+                            }
+                    ));
+        } catch (Exception e){
+            System.out.println("ERROR: Weapon picking incorrect.");
+        }
     }
 
 
@@ -137,7 +177,6 @@ public class TeamBlue {
     }
 
     public Group createScene(Group root) {
-
         this.root = root;
         addWarriorPanel();
         addArmorPanel();
