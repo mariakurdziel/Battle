@@ -26,9 +26,7 @@ public class TeamBlue {
     public Army armyBlue = new Army("","","", 0,0,0);
     boolean isReady = false;
     MenuButton warriorButton = new MenuButton("Warrior", null, null);
-    MenuButton armorButton = new MenuButton("Armor", null, null);
-    MenuButton weaponButton = new MenuButton("Weapon", null, null);
-
+  
     public void addWarriorPanel() {
 
         for (ArmyTypes armies : ArmyTypes.values()) {
@@ -67,7 +65,9 @@ public class TeamBlue {
 
 
     public void addArmorPanel() {
+        MenuButton armorButton = new MenuButton("Armor", null, null);
         try {
+
             for (ArmorTypes armors : ArmorTypes.values()) {
                     MenuItem newItem = new MenuItem(armors.getArmor());
                     armorButton.getItems().add(newItem);
@@ -83,13 +83,15 @@ public class TeamBlue {
         // BEZ HARDKODOWANIA
 
         root.getChildren().addAll(hbox);
+        addWeaponPanel();
     }
 
     public void addWeaponPanel() {
+        MenuButton weaponButton = new MenuButton("Weapon", null, null);
         try {
             for (WeaponTypes weapons : WeaponTypes.values()) {
                     MenuItem newItem = new MenuItem(weapons.getWeapon()); // narazie mozesz wybrac zbroje samuraja do wikinga, nie powinno tak byc
-                    armorButton.getItems().add(newItem);
+                    weaponButton.getItems().add(newItem);
             }
         } catch(NullPointerException e){
             weaponButton.getItems().add(new MenuItem("Pick a warrior"));
