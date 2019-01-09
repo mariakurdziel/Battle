@@ -102,7 +102,6 @@ public class Teams {
     }
 
     public void addWeaponPanel() {
-        MenuButton weaponButton = new MenuButton("Weapon", null, null);
         try {
             for (WeaponTypes weapons : WeaponTypes.values()) {
                     MenuItem newItem = new MenuItem(weapons.getWeapon()); // narazie mozesz wybrac zbroje samuraja do wikinga, nie powinno tak byc
@@ -144,7 +143,7 @@ public class Teams {
         DropShadow ds = new DropShadow();
         ds.setOffsetY(3.0f);
         ds.setColor(Color.color(0.4f, 0.4f, 0.4f));
-        Text t = new Text("Blue team settings:");
+        Text t = new Text("Team settings:");
         t.setEffect(ds);
         t.setCache(true);
         t.setX(145);

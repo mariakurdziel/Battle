@@ -7,7 +7,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -18,20 +17,16 @@ public class SimulationScreen extends Application {
 
 
     public Group root = new Group();
-    Stage stage=new Stage();
-    Army army1;
-    Army army2;
+    Stage stage = new Stage();
+    Army armyBlue;
+    Army armyRed;
 
-    public void setArmy1(Army army1) {
-        this.army1 = army1;
-      //  System.out.println(army1.warrior);
-      //  System.out.println(army1.weapon);
+    public void setArmyBlue(Army armyBlue) {
+        this.armyBlue = armyBlue;
     }
 
-    public void setArmy2(Army army2) {
-        this.army2 = army2;
-     //   System.out.println(army2.warrior);
-     //   System.out.println(army2.weapon);
+    public void setArmyRed(Army armyRed) {
+        this.armyRed = armyRed;
     }
 
     private void drawShape1(GraphicsContext gc) {
@@ -66,42 +61,42 @@ public class SimulationScreen extends Application {
 
     public void addInfos(){
         Text t1 = new Text("Army 1");
-        Text t2 = new Text("Wojownik: "+ army1.getWarrior());
+        Text t2 = new Text("Wojownik: "+ armyBlue.getWarrior());
         t1.setX(1000);
         t1.setY(140);
         t2.setX(950);
         t2.setY(180);
         t1.setFont(Font.font(16));
         t2.setFont(Font.font(16));
-     /*   Text t3 = new Text("Uzbrojenie: "+ army1.armor); // UZYWAC GETOW I SETOW A NIE INFORMACJI PRYWATNYCH!
+        Text t3 = new Text("Uzbrojenie: "+ armyBlue.getArmor()); // UZYWAC GETOW I SETOW A NIE INFORMACJI PRYWATNYCH!
         t3.setX(950);
         t3.setY(200);
         t3.setFont(Font.font(16));
-        Text t4 = new Text("Broń: "+ army1.weapon);
+        Text t4 = new Text("Broń: "+ armyBlue.getWeapon());
         t4.setX(950);
         t4.setY(220);
         t4.setFont(Font.font(16));
-        Text t5 = new Text("Morale: "+ army1.morale);
+        Text t5 = new Text("Morale: "+ armyBlue.getMorale());
         t5.setX(950);
         t5.setY(240);
         t5.setFont(Font.font(16));
-        Text t6 = new Text("Życia: "+ army1.healthPoints);
+        Text t6 = new Text("Życia: "+ armyBlue.getHealthPoints());
         t6.setX(950);
         t6.setY(260);
         t6.setFont(Font.font(16));
-        Text t7 = new Text("Zwinność: "+ army1.agility);
+        Text t7 = new Text("Zwinność: "+ armyBlue.getAgility());
         t7.setX(950);
         t7.setY(280);
         t7.setFont(Font.font(16));
-        Text t8 = new Text("Atak: "+ army1.attack);
+        Text t8 = new Text("Atak: "+ armyBlue.getAttack());
         t8.setX(950);
         t8.setY(300);
         t8.setFont(Font.font(16));
-        Text t9= new Text("Szybkość ataku: "+ army1.attackSpeed);
+        Text t9= new Text("Szybkość ataku: "+ armyBlue.getAttackSpeed());
         t9.setX(950);
         t9.setY(320);
         t9.setFont(Font.font(16));
-        Text t10= new Text("Zbroja: "+ army1.armorStats);
+        Text t10= new Text("Zbroja: "+ armyBlue.getArmorStats());
         t10.setX(950);
         t10.setY(340);
         t10.setFont(Font.font(16));
@@ -110,39 +105,39 @@ public class SimulationScreen extends Application {
         n1.setX(1000);
         n1.setY(420);
         n1.setFont(Font.font(16));
-        Text n2 = new Text("Wojownik: "+ army2.warrior);
+        Text n2 = new Text("Wojownik: "+ armyRed.getWarrior());
         n2.setX(950);
         n2.setY(460);
         n2.setFont(Font.font(16));
-        Text n3 = new Text("Uzbrojenie: "+ army2.armor);
+        Text n3 = new Text("Uzbrojenie: "+ armyRed.getArmor());
         n3.setX(950);
         n3.setY(480);
         n3.setFont(Font.font(16));
-        Text n4 = new Text("Broń: "+ army2.weapon);
+        Text n4 = new Text("Broń: "+ armyRed.getWeapon());
         n4.setX(950);
         n4.setY(500);
         n4.setFont(Font.font(16));
-        Text n5 = new Text("Morale: "+ army2.morale);
+        Text n5 = new Text("Morale: "+ armyRed.getMorale());
         n5.setX(950);
         n5.setY(520);
         n5.setFont(Font.font(16));
-        Text n6 = new Text("Życia: "+ army2.healthPoints);
+        Text n6 = new Text("Życia: "+ armyRed.getHealthPoints());
         n6.setX(950);
         n6.setY(540);
         n6.setFont(Font.font(16));
-        Text n7 = new Text("Zwinność: "+ army2.agility);
+        Text n7 = new Text("Zwinność: "+ armyRed.getAgility());
         n7.setX(950);
         n7.setY(560);
         n7.setFont(Font.font(16));
-        Text n8 = new Text("Atak: "+ army2.attack);
+        Text n8 = new Text("Atak: "+ armyRed.getAttack());
         n8.setX(950);
         n8.setY(580);
         n8.setFont(Font.font(16));
-        Text n9= new Text("Szybkość ataku: "+ army2.attackSpeed);
+        Text n9= new Text("Szybkość ataku: "+ armyRed.getAttackSpeed());
         n9.setX(950);
         n9.setY(600);
         n9.setFont(Font.font(16));
-        Text n10= new Text("Zbroja: "+ army2.armorStats);
+        Text n10= new Text("Zbroja: "+ armyRed.getArmorStats());
         n10.setX(950);
         n10.setY(620);
         n10.setFont(Font.font(16));
@@ -151,7 +146,7 @@ public class SimulationScreen extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         drawShape1(gc);
         drawShape2(gc);
-        root.getChildren().add(canvas);*/
+        root.getChildren().add(canvas);
     }
     public static void main(String[] args) {
 
