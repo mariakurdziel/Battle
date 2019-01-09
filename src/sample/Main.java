@@ -9,7 +9,7 @@ public class Main extends Application {
 
     Stage stage=new Stage();
     Army army1;
- //   Army army2;
+    Army army2;
     boolean ready = false;
 
     public void btnset(Button btn, String title, double x, double y){
@@ -36,13 +36,18 @@ public class Main extends Application {
             TeamBlue arm1 = new TeamBlue();
             arm1.createScene(root3);
 
+            TeamRed arm2 = new TeamRed();
+            arm2.createScene(root4);
+
+
+
             SimulationScreen sym = new SimulationScreen();
 
 
             final Scene scene1 = new Scene(root1, 600, 400);
             final Scene scene2 = new Scene(root2, 600, 400);
             final Scene scene3 = new Scene(root3, 600,  400);
-         //   final Scene scene4 = new Scene(root4, 600,  400);
+            final Scene scene4 = new Scene(root4, 600,  400);
 
 
             stage.setScene(scene1);
@@ -66,6 +71,16 @@ public class Main extends Application {
                     });
             root2.getChildren().addAll(button2);
 
+            Button button3= new Button();
+            btnset(button3,"Army2",215,200);
+
+            button3.setOnAction(
+                    event -> {
+                        stage.setScene(scene4);
+                        stage.setTitle("Army 2");
+                    });
+            root2.getChildren().addAll(button3);
+
             Button button4 = new Button();
             btnset(button4,"OK",215,260);
             button4.setOnAction(
@@ -77,10 +92,17 @@ public class Main extends Application {
             });
             root3.getChildren().addAll(button4);
 
-         //   javafx.scene.control.Button button5= new javafx.scene.control.Button();
-         //   btnset(button5,"OK",215,260);
-        //    button5.setOnAction(event -> { stage.setScene(scene2);stage.setTitle("Settings");army2=arm2.setArmy(army2); sym.setArmy2(army2); });
-        //    root4.getChildren().addAll(button5);
+            Button button5 = new Button();
+            btnset(button5,"OK",215,260);
+            button5.setOnAction(
+                    event ->{
+                        stage.setScene(scene2);
+                        stage.setTitle("Settings");
+                        army2 = arm2.setArmy(army2);
+                        sym.setArmy1(army2);
+                    });
+            root4.getChildren().addAll(button5);
+
 
             Button button6 = new Button();
             btnset(button6,"Start Simulation",215,270);

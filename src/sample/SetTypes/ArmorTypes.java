@@ -6,8 +6,8 @@ public enum ArmorTypes {
     HEAVY_LEATHER("Viking", "Heavy Leather", 1.5, -0.02),
     LIGHT_CLOTHING("Mongols", "Light Clothing", 0.5, -0.0),
     LEATHER_CLOTHING("Mongols", "Leather Clothing", 1.0, -0.01),
-    LIGHT_IRON("Teutonic knight", "Light Iron", 3.0, -0.08),
-    HEAVY_IRON("Teutonic knight", "Heavy Iron", 5.0, -0.1),
+    LIGHT_IRON("Teutonic Knight", "Light Iron", 3.0, -0.08),
+    HEAVY_IRON("Teutonic Knight", "Heavy Iron", 5.0, -0.1),
     DOU("Samurai", "Dou", 2.0, -0.03),
     YOROI("Samurai", "Yoroi", 3.0, -0.05);
 

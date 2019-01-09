@@ -4,7 +4,7 @@ public enum Army {
 
     VIKING("Viking", 120.0, 0.15, 2.2),
     MONGOLS("Mongols",130,0.12, 2.1),
-    TEUTONIC("Teutonic Knights", 150.0, 0.1, 2.0),
+    TEUTONIC("Teutonic Knight", 150.0, 0.1, 2.0),
     SAMURAI("Samurai", 100, 0.13, 2.4);
 
     private String warrior;
