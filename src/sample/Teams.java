@@ -20,7 +20,7 @@ import sample.SetTypes.ArmorTypes;
 public class Teams {
 
     public Group root = new Group();
-    public Army armyBlue = new Army("","","", 0,0,0,0);
+    public Army army = new Army("","","", 0,0,0,0);
     boolean isReady = false;
     MenuButton warriorButton = new MenuButton("Warrior", null, null);
     MenuButton armorButton = new MenuButton("Armor", null, null);
@@ -47,15 +47,15 @@ public class Teams {
             warriorButton.getItems().forEach(
                     menuItem -> menuItem.setOnAction(
                             event -> {
-                                armyBlue.setWarrior(menuItem.getText());
+                                army.setWarrior(menuItem.getText());
                                         for (ArmyTypes types : ArmyTypes.values()) {
-                                            if(types.getWarrior() == armyBlue.getWarrior()){
-                                                armyBlue.setHealthPoints(types.getHealthPoints());
-                                                armyBlue.setAgility(types.getAgility());
-                                                armyBlue.setAttackSpeed(types.getAttackSpeed());
+                                            if(types.getWarrior() == army.getWarrior()){
+                                                army.setHealthPoints(types.getHealthPoints());
+                                                army.setAgility(types.getAgility());
+                                                army.setAttackSpeed(types.getAttackSpeed());
                                             }
                                         }
-                                armyBlue.setMorale(1);
+                                army.setMorale(1);
                                 isReady = true;
                             }
                     ));
@@ -91,11 +91,11 @@ public class Teams {
             armorButton.getItems().forEach(
                     menuItem -> menuItem.setOnAction(
                             event -> {
-                                armyBlue.setArmor(menuItem.getText());
+                                army.setArmor(menuItem.getText());
                                 for (ArmorTypes types : ArmorTypes.values()) { // mozliwa optymalizacja?
-                                    if(types.getWarrior() == armyBlue.getWarrior() && types.getArmor() == armyBlue.getArmor()){
-                                        armyBlue.setArmorStats(types.getArmorStats());
-                                        armyBlue.setAgility(armyBlue.getAgility() + types.getAgility());
+                                    if(types.getWarrior() == army.getWarrior() && types.getArmor() == army.getArmor()){
+                                        army.setArmorStats(types.getArmorStats());
+                                        army.setAgility(army.getAgility() + types.getAgility());
                                     }
                                 }
                             }
@@ -127,11 +127,11 @@ public class Teams {
             weaponButton.getItems().forEach(
                     menuItem -> menuItem.setOnAction(
                             event -> {
-                                armyBlue.setWeapon(menuItem.getText());
+                                army.setWeapon(menuItem.getText());
                                 for (WeaponTypes types : WeaponTypes.values()) { // mozliwa optymalizacja?
-                                    if(types.getWarrior() == armyBlue.getWarrior() && types.getWeapon() == armyBlue.getWeapon()){
-                                        armyBlue.setAttack(types.getAttack());
-                                        armyBlue.setAttackSpeed(armyBlue.getAttackSpeed() + types.getAttackSpeed());
+                                    if(types.getWarrior() == army.getWarrior() && types.getWeapon() == army.getWeapon()){
+                                        army.setAttack(types.getAttack());
+                                        army.setAttackSpeed(army.getAttackSpeed() + types.getAttackSpeed());
                                     }
                                 }
                             }
@@ -157,7 +157,7 @@ public class Teams {
         try {
             addingNumberButton.setOnAction(
                     event ->
-                            armyBlue.setNumber(Integer.parseInt(numberField.getText()))
+                            army.setNumber(Integer.parseInt(numberField.getText()))
             );
         } catch (Exception e){
             System.out.println("ERROR: Number incorrect.");
@@ -192,7 +192,7 @@ public class Teams {
     public Army setArmy(Army blue){
 
         if(isReady) {
-            blue = armyBlue;
+            blue = army;
         }
         return blue;
     }
