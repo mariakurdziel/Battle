@@ -22,7 +22,7 @@ import sample.SetTypes.ArmorTypes;
 public class TeamBlue {
 
     public Group root = new Group();
-    public Army armyBlue;
+    public Army armyBlue=Army.VIKING;
     boolean isReady = false;
     MenuButton warriorButton = new MenuButton("Warrior", null, null);
     MenuButton armorButton = new MenuButton("Armor", null, null);
@@ -51,18 +51,22 @@ public class TeamBlue {
 //        });
 
             warriorButton.getItems().forEach(
-                    menuItem -> menuItem.setOnAction(
-                            event -> {
-                                armyBlue.setWarrior(menuItem.getText());
-                             //   armyBlue.setHealthPoints();
-                             //   armyBlue.setAgility();
-                             //   armyBlue.setAttackSpeed();
-                                armyBlue.setArmorStats(0);
-                                armyBlue.setMorale(1);
-                                armyBlue.setAttack(0);
-                                isReady = true;
-                            }
-                    ));
+                    menuItem -> {
+                        menuItem.setOnAction(
+                                event -> {
+
+                                    armyBlue.setWarrior(menuItem.getText());
+                                    System.out.println(armyBlue.getWarrior());
+                                    //armyBlue.setHealthPoints();
+                                    //   armyBlue.setAgility();
+                                   // armyBlue.setAttackSpeed();
+                                   armyBlue.setArmorStats(0);
+                                   armyBlue.setMorale(1);
+                                   armyBlue.setAttack(0);
+                                    isReady = true;
+                                }
+                        );
+                    });
 
     }
 

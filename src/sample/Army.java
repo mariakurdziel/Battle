@@ -17,6 +17,7 @@ public enum Army {
     private double armorStats;
     private double morale;
 
+
     Army(String warrior, double healthPoints, double agility, double attackSpeed){
         this.warrior = warrior;
         this.healthPoints = healthPoints;
