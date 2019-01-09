@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -18,11 +20,13 @@ import sample.SetTypes.ArmorTypes;
 public class Teams {
 
     public Group root = new Group();
-    public Army armyBlue = new Army("","","", 0,0,0);
+    public Army armyBlue = new Army("","","", 0,0,0,0);
     boolean isReady = false;
     MenuButton warriorButton = new MenuButton("Warrior", null, null);
     MenuButton armorButton = new MenuButton("Armor", null, null);
     MenuButton weaponButton = new MenuButton("Weapon", null, null);
+    Button addingNumberButton = new Button("Add");
+    TextField numberField = new TextField();
 
     public void addWarriorPanel() {
 
@@ -104,8 +108,8 @@ public class Teams {
     public void addWeaponPanel() {
         try {
             for (WeaponTypes weapons : WeaponTypes.values()) {
-                    MenuItem newItem = new MenuItem(weapons.getWeapon()); // narazie mozesz wybrac zbroje samuraja do wikinga, nie powinno tak byc
-                    weaponButton.getItems().add(newItem);
+                MenuItem newItem = new MenuItem(weapons.getWeapon()); // narazie mozesz wybrac zbroje samuraja do wikinga, nie powinno tak byc
+                weaponButton.getItems().add(newItem);
             }
         } catch(NullPointerException e){
             weaponButton.getItems().add(new MenuItem("Pick a warrior"));
@@ -134,6 +138,29 @@ public class Teams {
                     ));
         } catch (Exception e){
             System.out.println("ERROR: Weapon picking incorrect.");
+        }
+    }
+
+    public void addNumberPanel() {
+        HBox hbox = new HBox(numberField);
+        hbox.setLayoutX(340);
+        hbox.setLayoutY(120);
+        HBox hboxbutton = new HBox(addingNumberButton);
+        hboxbutton.setLayoutX(400);
+        hboxbutton.setLayoutY(160);
+        root.getChildren().addAll(hbox);
+        root.getChildren().addAll(hboxbutton);
+        pickNumber();
+    }
+
+    public void pickNumber(){
+        try {
+            addingNumberButton.setOnAction(
+                    event ->
+                            armyBlue.setNumber(Integer.parseInt(numberField.getText()))
+            );
+        } catch (Exception e){
+            System.out.println("ERROR: Number incorrect.");
         }
     }
 
@@ -175,6 +202,7 @@ public class Teams {
         addWarriorPanel();
         addArmorPanel();
         addWeaponPanel();
+        addNumberPanel();
         return root;
     }
 }

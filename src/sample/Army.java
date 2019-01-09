@@ -10,15 +10,19 @@ public class Army {
     private double attackSpeed;
     private double attack;
     private double armorStats;
+
+
+    private int number;
     private double morale = 1;
 
-    Army(String warrior, String armor, String weapon, double healthPoints, double agility, double attackSpeed){
+    Army(String warrior, String armor, String weapon, double healthPoints, double agility, double attackSpeed, int number){
         this.warrior = warrior;
         this.armor = armor;
         this.weapon = weapon;
         this.healthPoints = healthPoints;
         this.agility = agility;
         this.attackSpeed = attackSpeed;
+        this.number = number;
     }
 
     public String getWarrior() {
@@ -83,6 +87,14 @@ public class Army {
 
     public void setArmorStats(double armorStats) {
         this.armorStats = armorStats;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public double getMorale() {

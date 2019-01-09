@@ -60,7 +60,7 @@ public class SimulationScreen extends Application {
     }
 
     public void addInfos(){
-        Text t1 = new Text("Army 1");
+        Text t1 = new Text("Army 1: " + armyBlue.getNumber());
         Text t2 = new Text("Wojownik: "+ armyBlue.getWarrior());
         t1.setX(1000);
         t1.setY(140);
@@ -101,7 +101,7 @@ public class SimulationScreen extends Application {
         t10.setY(340);
         t10.setFont(Font.font(16));
         root.getChildren().addAll(t1,t2,t3,t4,t5,t6,t7,t8,t9,t10);
-        Text n1 = new Text("Army 2");
+        Text n1 = new Text("Army 2: " + armyRed.getNumber());
         n1.setX(1000);
         n1.setY(420);
         n1.setFont(Font.font(16));
