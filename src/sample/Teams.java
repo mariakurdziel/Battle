@@ -8,11 +8,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Stream;
-
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import sample.SetTypes.ArmyTypes;
@@ -20,7 +15,7 @@ import sample.SetTypes.WeaponTypes;
 import sample.SetTypes.ArmorTypes;
 
 
-public class TeamBlue {
+public class Teams {
 
     public Group root = new Group();
     public Army armyBlue = new Army("","","", 0,0,0);
@@ -149,7 +144,7 @@ public class TeamBlue {
         DropShadow ds = new DropShadow();
         ds.setOffsetY(3.0f);
         ds.setColor(Color.color(0.4f, 0.4f, 0.4f));
-        Text t = new Text("Army 2 settings:");
+        Text t = new Text("Blue team settings:");
         t.setEffect(ds);
         t.setCache(true);
         t.setX(145);
