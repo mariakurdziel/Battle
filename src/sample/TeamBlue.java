@@ -22,12 +22,11 @@ import sample.SetTypes.ArmorTypes;
 public class TeamBlue {
 
     public Group root = new Group();
+    String x;
     public Army armyBlue=Army.VIKING;
     boolean isReady = false;
     MenuButton warriorButton = new MenuButton("Warrior", null, null);
-    MenuButton armorButton = new MenuButton("Armor", null, null);
-    MenuButton weaponButton = new MenuButton("Weapon", null, null);
-
+  
     public void addWarriorPanel() {
 
         for (Army armies : Army.values()) {
@@ -56,7 +55,7 @@ public class TeamBlue {
                                 event -> {
 
                                     armyBlue.setWarrior(menuItem.getText());
-                                    System.out.println(armyBlue.getWarrior());
+
                                     //armyBlue.setHealthPoints();
                                     //   armyBlue.setAgility();
                                    // armyBlue.setAttackSpeed();
@@ -64,6 +63,7 @@ public class TeamBlue {
                                    armyBlue.setMorale(1);
                                    armyBlue.setAttack(0);
                                     isReady = true;
+                                    addArmorPanel();
                                 }
                         );
                     });
@@ -72,7 +72,9 @@ public class TeamBlue {
 
 
     public void addArmorPanel() {
+        MenuButton armorButton = new MenuButton("Armor", null, null);
         try {
+
             for (ArmorTypes armors : ArmorTypes.values()) {
                 if (armors.getWarrior().equals(armyBlue.getWarrior())) {
                     MenuItem newItem = new MenuItem(armors.getArmor());
@@ -87,14 +89,16 @@ public class TeamBlue {
         hbox.setLayoutX(140);
         hbox.setLayoutY(120);
         root.getChildren().addAll(hbox);
+        addWeaponPanel();
     }
 
     public void addWeaponPanel() {
+        MenuButton weaponButton = new MenuButton("Weapon", null, null);
         try {
             for (WeaponTypes weapons : WeaponTypes.values()) {
                 if (weapons.getWarrior().equals(armyBlue.getWarrior())) {
                     MenuItem newItem = new MenuItem(weapons.getWeapon());
-                    armorButton.getItems().add(newItem);
+                    weaponButton.getItems().add(newItem);
                 }
             }
         } catch(NullPointerException e){
