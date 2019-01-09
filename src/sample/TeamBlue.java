@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import sample.SetTypes.ArmyTypes;
 import sample.SetTypes.WeaponTypes;
 import sample.SetTypes.ArmorTypes;
 
@@ -22,7 +23,7 @@ import sample.SetTypes.ArmorTypes;
 public class TeamBlue {
 
     public Group root = new Group();
-    public Army armyBlue;
+    public Army armyBlue = new Army("","","", 0,0,0);
     boolean isReady = false;
     MenuButton warriorButton = new MenuButton("Warrior", null, null);
     MenuButton armorButton = new MenuButton("Armor", null, null);
@@ -30,7 +31,7 @@ public class TeamBlue {
 
     public void addWarriorPanel() {
 
-        for (Army armies : Army.values()) {
+        for (ArmyTypes armies : ArmyTypes.values()) {
             MenuItem newItem = new MenuItem(armies.getWarrior());
             warriorButton.getItems().add(newItem);
         }
@@ -43,55 +44,52 @@ public class TeamBlue {
     }
 
     public void pickWarrior(){
-//        menuItem1.setOnAction(event -> {
-//            army.weapon = "Sztylet";
-//            army.attackStats += 3;
-//            army.attackSpeedStats += 0.2;
-//            isReady=true;
-//        });
-
+            try {
             warriorButton.getItems().forEach(
                     menuItem -> menuItem.setOnAction(
                             event -> {
                                 armyBlue.setWarrior(menuItem.getText());
-                             //   armyBlue.setHealthPoints();
-                             //   armyBlue.setAgility();
-                             //   armyBlue.setAttackSpeed();
-                                armyBlue.setArmorStats(0);
+                                        for (ArmyTypes types : ArmyTypes.values()) {
+                                            if(types.getWarrior() == armyBlue.getWarrior()){
+                                                armyBlue.setHealthPoints(types.getHealthPoints());
+                                                armyBlue.setAgility(types.getAgility());
+                                                armyBlue.setAttackSpeed(types.getAttackSpeed());
+                                            }
+                                        }
                                 armyBlue.setMorale(1);
-                                armyBlue.setAttack(0);
                                 isReady = true;
                             }
                     ));
-
+            } catch (Exception e){
+                System.out.println("ERROR: Warrior picking incorrect.");
+            }
     }
 
 
     public void addArmorPanel() {
         try {
             for (ArmorTypes armors : ArmorTypes.values()) {
-                if (armors.getWarrior().equals(armyBlue.getWarrior())) {
                     MenuItem newItem = new MenuItem(armors.getArmor());
                     armorButton.getItems().add(newItem);
-                }
             }
         } catch(NullPointerException e){
                 armorButton.getItems().add(new MenuItem("Pick a warrior"));
         }
 
         HBox hbox = new HBox(armorButton);
-        hbox.setLayoutX(140);
-        hbox.setLayoutY(120);
+
+        // wrzucic informacje o aktualnie wybranym wojowniku po prawej!
+        // w jakiegos cos, metode moze czy zmienne stale WGL CALY INTERFEJS!!!
+        // BEZ HARDKODOWANIA
+
         root.getChildren().addAll(hbox);
     }
 
     public void addWeaponPanel() {
         try {
             for (WeaponTypes weapons : WeaponTypes.values()) {
-                if (weapons.getWarrior().equals(armyBlue.getWarrior())) {
-                    MenuItem newItem = new MenuItem(weapons.getWeapon());
+                    MenuItem newItem = new MenuItem(weapons.getWeapon()); // narazie mozesz wybrac zbroje samuraja do wikinga, nie powinno tak byc
                     armorButton.getItems().add(newItem);
-                }
             }
         } catch(NullPointerException e){
             weaponButton.getItems().add(new MenuItem("Pick a warrior"));
