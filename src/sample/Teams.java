@@ -53,6 +53,7 @@ public class Teams {
                                                 army.setHealthPoints(types.getHealthPoints());
                                                 army.setAgility(types.getAgility());
                                                 army.setAttackSpeed(types.getAttackSpeed());
+                                                warriorButton.setText(types.getWarrior());
                                             }
                                         }
                                 army.setMorale(1);
@@ -93,9 +94,12 @@ public class Teams {
                             event -> {
                                 army.setArmor(menuItem.getText());
                                 for (ArmorTypes types : ArmorTypes.values()) { // mozliwa optymalizacja?
-                                    if(types.getWarrior() == army.getWarrior() && types.getArmor() == army.getArmor()){
-                                        army.setArmorStats(types.getArmorStats());
-                                        army.setAgility(army.getAgility() + types.getAgility());
+                                    if(types.getWarrior() == army.getWarrior()){
+                                        if(types.getArmor() == army.getArmor()) {
+                                            army.setArmorStats(types.getArmorStats());
+                                            army.setAgility(army.getAgility() + types.getAgility());
+                                            armorButton.setText(types.getArmor());
+                                        }
                                     }
                                 }
                             }
@@ -132,6 +136,7 @@ public class Teams {
                                     if(types.getWarrior() == army.getWarrior() && types.getWeapon() == army.getWeapon()){
                                         army.setAttack(types.getAttack());
                                         army.setAttackSpeed(army.getAttackSpeed() + types.getAttackSpeed());
+                                        weaponButton.setText(types.getWeapon());
                                     }
                                 }
                             }

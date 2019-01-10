@@ -10,6 +10,7 @@ public class Main extends Application {
     Stage stage=new Stage();
     Army armyBlue;
     Army armyRed;
+
     boolean ready = false;
 
     public void btnset(Button btn, String title, double x, double y){
@@ -33,11 +34,12 @@ public class Main extends Application {
 
             new Simulation().createScene(root1);
             new Options().createScene(root2);
+
             Teams teamBlue = new Teams();
             Teams teamRed = new Teams();
             teamBlue.createScene(root3);
             teamRed.createScene(root4);
-
+            PredictingFight predictions = new PredictingFight();
             SimulationScreen sym = new SimulationScreen();
 
 
@@ -102,6 +104,8 @@ public class Main extends Application {
             btnset(button6,"Start Simulation",215,270);
             button6.setOnAction(event -> {
                 try {
+                    int temp = predictions.lanchesterEquation(armyBlue, armyRed);
+                    System.out.println(temp);
                     sym.start(stage);
                 } catch (Exception e) {
                     e.printStackTrace();
