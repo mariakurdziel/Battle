@@ -4,14 +4,22 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import java.util.HashMap;
 
 public class Main extends Application {
 
-    Stage stage=new Stage();
     Army armyBlue;
     Army armyRed;
 
-    boolean ready = false;
+    Group root1 = new Group();
+    Group root2 = new Group();
+    Group root3 = new Group();
+    Group root4 = new Group();
+
+    final Scene scene1 = new Scene(root1, 600, 400);
+    final Scene scene2 = new Scene(root2, 600, 400);
+    final Scene scene3 = new Scene(root3, 600,  400);
+    final Scene scene4 = new Scene(root4, 600,  400);
 
     public void btnset(Button btn, String title, double x, double y){
         btn.setText(title);
@@ -24,100 +32,64 @@ public class Main extends Application {
         launch(args);
     }
 
-        @Override
-        public void start(final Stage stage) throws Exception {
+    @Override
+    public void start(final Stage stage) throws Exception {
 
-            Group root1 = new Group();
-            Group root2 = new Group();
-            Group root3 = new Group();
-            Group root4 = new Group();
+        HashMap roots = new HashMap();
+        roots.put("ROOT1",root1);
+        roots.put("ROOT2",root2);
+        roots.put("ROOT3",root3);
+        roots.put("ROOT4",root4);
 
-            new Simulation().createScene(root1);
-            new Options().createScene(root2);
+        HashMap scenes = new HashMap();
+        scenes.put("SCENE1",scene1);
+        scenes.put("SCENE2",scene2);
+        scenes.put("SCENE3",scene3);
+        scenes.put("SCENE4",scene4);
 
-            Teams teamBlue = new Teams();
-            Teams teamRed = new Teams();
-            teamBlue.createScene(root3);
-            teamRed.createScene(root4);
-            PredictingFight predictions = new PredictingFight();
-            SimulationScreen sym = new SimulationScreen();
+        new Simulation().createScene(root1);
+        new Options().createScene(root2);
+        Teams teamBlue = new Teams();
+        Teams teamRed = new Teams();
+        teamBlue.createScene(root3);
+        teamRed.createScene(root4);
+        SimulationScreen sym = new SimulationScreen();
+        stage.setScene(scene1);
+        stage.setTitle("Simulation");
 
+        for (UIHandler buttons : UIHandler.values()){
 
-            final Scene scene1 = new Scene(root1, 600, 400);
-            final Scene scene2 = new Scene(root2, 600, 400);
-            final Scene scene3 = new Scene(root3, 600,  400);
-            final Scene scene4 = new Scene(root4, 600,  400);
+            Button button = new Button();
 
+            btnset(button,buttons.getBtntext(),buttons.getLayoutx(),buttons.getLayouty());
+            button.setOnAction(event -> {
+                if(buttons.getScene()!="")
+                    stage.setScene((Scene) scenes.get(buttons.getScene()));
+                stage.setTitle(buttons.getText());
 
-            stage.setScene(scene1);
-            stage.setTitle("Simulation");
-
-            Button button1 = new Button();
-            btnset(button1,"Start",215,200);
-            button1.setOnAction(event -> {
-                stage.setScene(scene2);
-                stage.setTitle("Settings");
-            });
-            root1.getChildren().addAll(button1);
-
-            Button button2 = new Button();
-            btnset(button2,"Blue team",215,130);
-            button2.setOnAction(
-                    event -> {
-                        stage.setScene(scene3);
-                        stage.setTitle("Blue team");
-                    });
-            root2.getChildren().addAll(button2);
-
-            Button button3 = new Button();
-            btnset(button3,"Red team",215,200);
-            button3.setOnAction(
-                    event -> {
-                        stage.setScene(scene4);
-                        stage.setTitle("Red team");
-                    });
-            root2.getChildren().addAll(button3);
-
-            Button button4 = new Button();
-            btnset(button4,"OK",215,260);
-            button4.setOnAction(
-                    event ->{
-                          stage.setScene(scene2);
-                          stage.setTitle("Settings");
-                          armyBlue = teamBlue.setArmy(armyBlue);
-                          sym.setArmyBlue(armyBlue);
-            });
-            root3.getChildren().addAll(button4);
-
-            Button button5 = new Button();
-            btnset(button5,"OK",215,260);
-            button5.setOnAction(
-                    event ->{
-                        stage.setScene(scene2);
-                        stage.setTitle("Settings");
-                        armyRed = teamRed.setArmy(armyRed);
-                        sym.setArmyRed(armyRed);
-                    });
-            root4.getChildren().addAll(button5);
-
-            Button button6 = new Button();
-            btnset(button6,"Start Simulation",215,270);
-            button6.setOnAction(event -> {
-                try {
-                    int temp = predictions.lanchesterEquation(armyBlue, armyRed); // tutaj wylicza wynik walki
-                    System.out.println(temp); // TODO moze niech to sie wyswietla pod statami armii po prawej?
-                    sym.start(stage);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if(buttons.getType().equals("BUTTON_ARMB"))
+                {
+                    armyBlue = teamBlue.setArmy(armyBlue);
+                    sym.setArmyBlue(armyBlue);
                 }
+                else if (buttons.getType().equals("BUTTON_ARMR"))
+                {
+                    armyRed = teamRed.setArmy(armyRed);
+                    sym.setArmyRed(armyRed);
+                }
+                else if(buttons.getType().equals("BUTTON_SYM"))
+                    try {
+                        sym.start(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
             });
-            root2.getChildren().addAll(button6);
 
-            stage.show();
-
+            Group rooty= (Group) roots.get(buttons.getRoot());
+            rooty.getChildren().addAll(button);
         }
-
-
-
+        stage.show();
     }
+}
+
 
