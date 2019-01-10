@@ -20,6 +20,7 @@ public class SimulationScreen extends Application {
     Stage stage = new Stage();
     Army armyBlue;
     Army armyRed;
+    PredictingFight predictions = new PredictingFight();
 
     public void setArmyBlue(Army armyBlue) {
         this.armyBlue = armyBlue;
@@ -29,12 +30,20 @@ public class SimulationScreen extends Application {
         this.armyRed = armyRed;
     }
 
+    public String setLanchesterEquation(Army armyBlue, Army armyRed){
+        int whoWins = predictions.lanchesterEquation(armyBlue,armyRed);
+        if(whoWins == 1) return armyBlue.getWarrior();
+        else if(whoWins == 0) return "Draw";
+        else if(whoWins == -1) return armyRed.getWarrior();
+        else return null;
+    }
+
     public String setAttribute(TextHandler text){
         Army x;
         if(text.getType().equals("B"))
-            x=armyBlue;
+            x = armyBlue;
         else
-            x=armyRed;
+            x = armyRed;
 
         if(text.getAttribute().equals("Number"))
             return String.valueOf((x.getNumber()));
@@ -52,13 +61,14 @@ public class SimulationScreen extends Application {
             return String.valueOf((x.getAgility())).substring(0,3);
         else if (text.getAttribute().equals("Atak"))
             return String.valueOf((x.getAttack())).substring(0,3);
-        else if (text.getAttribute().equals("Atak"))
-            return String.valueOf((x.getAttack())).substring(0,3);
         else if (text.getAttribute().equals("Speed"))
             return String.valueOf((x.getAttackSpeed())).substring(0,3);
-        else
+        else if (text.getAttribute().equals("ArmorStats"))
             return String.valueOf((x.getArmorStats())).substring(0,3);
-
+        else if (text.getAttribute().equals("WhoWon"))
+            return String.valueOf(setLanchesterEquation(armyBlue,armyRed));
+        else
+            return null;
     }
 
     private void drawShape(GraphicsContext gc) {
@@ -87,9 +97,7 @@ public class SimulationScreen extends Application {
         rootx.getChildren().addAll(t);
     }
 
-    public void addInfos(){                 // TODO TO CALE ZAMIENIC NA SENSOWNY UI
-
-
+    public void addInfos(){
         for (TextHandler text : TextHandler.values()){
 
             Text t = new Text(text.getText() + setAttribute(text));
@@ -104,14 +112,12 @@ public class SimulationScreen extends Application {
         drawShape(gc);
         rootx.getChildren().add(canvas);
     }
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
         launch(args);
     }
 
     public void update() {
-        PredictingFight predictions = new PredictingFight();
-        predictions.changingMorale(armyBlue, armyRed);
         // TODO
         // TODO CZY ZABILES KOGOS
         // TODO PODZIEL NA GRUPKI ARMIE
@@ -122,13 +128,17 @@ public class SimulationScreen extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        addTitle(); // TODO GDZIES TUTAJ WRZUC UPDATE
-        addInfos();
-        final Scene scene = new Scene(rootx, 1200, 800);
-        stage.setScene(scene);
-        stage.setTitle("Simulation");
-        stage.show();
+      //  while(predictions.whoWon != 1 || predictions.whoWon != 1) { // ava.lang.IllegalArgumentException: Group@1bb34940[styleClass=root]is already set as root of another scene
+                // zmienic to tak zeby bylo w petli jakos, moze co 0.5 sekundy czy cos?
+            rootx.getChildren().clear();
+            //update();
+            addTitle(); // TODO GDZIES TUTAJ WRZUC UPDATE
+            addInfos();
+            final Scene scene = new Scene(rootx, 1200, 800);
+            stage.setScene(scene);
+            stage.setTitle("Simulation");
+            stage.show();
+      //  }
     }
 
 }

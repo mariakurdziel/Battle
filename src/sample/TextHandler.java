@@ -21,7 +21,8 @@ public enum TextHandler {
     TEXT_R7("R","Agility","Zwinność: ",950,560,16),
     TEXT_R8("R","Atak","Atak: ",950,580,16),
     TEXT_R9("R","Speed","Szybkość ataku: ",950,600,16),
-    TEXT_R10("R","ArmorStats","Zbroja: ",950,620,16);
+    TEXT_R10("R","ArmorStats","Zbroja: ",950,620,16),
+    TEXT_WIN("W","WhoWon" ,"Current winner: ", 950, 660, 16);
 
     private String type;
     private String attribute;
