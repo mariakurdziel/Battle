@@ -93,7 +93,7 @@ public class Teams {
                     menuItem -> menuItem.setOnAction(
                             event -> {
                                 army.setArmor(menuItem.getText());
-                                for (ArmorTypes types : ArmorTypes.values()) { // mozliwa optymalizacja?
+                                for (ArmorTypes types : ArmorTypes.values()) { // TODO mozliwa optymalizacja? MALO WAZNE
                                     if(types.getWarrior() == army.getWarrior()){
                                         if(types.getArmor() == army.getArmor()) {
                                             army.setArmorStats(types.getArmorStats());
@@ -112,8 +112,8 @@ public class Teams {
     public void addWeaponPanel() {
         try {
             for (WeaponTypes weapons : WeaponTypes.values()) {
-                MenuItem newItem = new MenuItem(weapons.getWeapon()); // narazie mozesz wybrac zbroje samuraja do wikinga, nie powinno tak byc
-                weaponButton.getItems().add(newItem);
+                MenuItem newItem = new MenuItem(weapons.getWeapon()); // TODO narazie mozesz wybrac zbroje samuraja do wikinga, nie powinno tak byc
+                weaponButton.getItems().add(newItem);                 // TODO DODAC HANDLER ZEBY WYWALALO "EJ NIE MOZESZ TEGO WYBRAC" CZY COS
             }
         } catch(NullPointerException e){
             weaponButton.getItems().add(new MenuItem("Pick a warrior"));
@@ -132,7 +132,7 @@ public class Teams {
                     menuItem -> menuItem.setOnAction(
                             event -> {
                                 army.setWeapon(menuItem.getText());
-                                for (WeaponTypes types : WeaponTypes.values()) { // mozliwa optymalizacja?
+                                for (WeaponTypes types : WeaponTypes.values()) {
                                     if(types.getWarrior() == army.getWarrior() && types.getWeapon() == army.getWeapon()){
                                         army.setAttack(types.getAttack());
                                         army.setAttackSpeed(army.getAttackSpeed() + types.getAttackSpeed());
@@ -149,7 +149,7 @@ public class Teams {
     public void addNumberPanel() {
         HBox hbox = new HBox(numberField);
         hbox.setLayoutX(340);
-        hbox.setLayoutY(120);
+        hbox.setLayoutY(120);       // TODO POZMIENIAC WSZEDZIE TE HARDKODOWANE INFORMACJE NA TE Z ENUMA MARII
         HBox hboxbutton = new HBox(addingNumberButton);
         hboxbutton.setLayoutX(400);
         hboxbutton.setLayoutY(160);

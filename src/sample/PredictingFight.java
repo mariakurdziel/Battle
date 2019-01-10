@@ -26,4 +26,15 @@ public class PredictingFight {
     }
 
 
+    public void changingMorale(Army blue, Army red){
+
+        if ( blue.getNumber() / red.getNumber() >= 2.5) solution = 1;
+        else if ( blue.getNumber() / red.getNumber() >= 2) { red.setMorale(red.getMorale() - 0.5); blue.setMorale(red.getMorale() + 0.5); }
+        else if ( blue.getNumber() / red.getNumber() > 1.5) {red.setMorale(red.getMorale() - 0.2);blue.setMorale(red.getMorale() + 0.2); }
+        else if ( blue.getNumber() / red.getNumber() == 1) { red.setMorale(red.getMorale() + 0.0);blue.setMorale(red.getMorale() + 0.0); }
+        else if ( blue.getNumber() / red.getNumber() < 0.6) { red.setMorale(red.getMorale() + 0.2);blue.setMorale(red.getMorale() - 0.2); }
+        else if ( blue.getNumber() / red.getNumber() <= 0.5) {red.setMorale(red.getMorale() + 0.5);blue.setMorale(red.getMorale() - 0.5); }
+        else if ( blue.getNumber() / red.getNumber() <= 0.4) solution = -1;
+    }
+
 }

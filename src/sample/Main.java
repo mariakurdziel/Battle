@@ -104,8 +104,8 @@ public class Main extends Application {
             btnset(button6,"Start Simulation",215,270);
             button6.setOnAction(event -> {
                 try {
-                    int temp = predictions.lanchesterEquation(armyBlue, armyRed);
-                    System.out.println(temp);
+                    int temp = predictions.lanchesterEquation(armyBlue, armyRed); // tutaj wylicza wynik walki
+                    System.out.println(temp); // TODO moze niech to sie wyswietla pod statami armii po prawej?
                     sym.start(stage);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -116,5 +116,8 @@ public class Main extends Application {
             stage.show();
 
         }
+
+
+
     }
 

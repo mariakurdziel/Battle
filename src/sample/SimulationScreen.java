@@ -59,7 +59,7 @@ public class SimulationScreen extends Application {
         root.getChildren().addAll(t);
     }
 
-    public void addInfos(){
+    public void addInfos(){                 // TODO TO CALE ZAMIENIC NA SENSOWNY UI
         Text t1 = new Text("Army 1: " + armyBlue.getNumber());
         Text t2 = new Text("Wojownik: "+ armyBlue.getWarrior());
         t1.setX(1000);
@@ -153,11 +153,21 @@ public class SimulationScreen extends Application {
         launch(args);
     }
 
+    public void update() {
+        PredictingFight predictions = new PredictingFight();
+        predictions.changingMorale(armyBlue, armyRed);
+        // TODO
+        // TODO CZY ZABILES KOGOS
+        // TODO PODZIEL NA GRUPKI ARMIE
+        // TODO DLA KAZDEJ GRUPKI SZANSA NA UNIKNIECIE ATAKU
+        // TODO ANIMACJA
+        // TODO POWTORZ CO 0.5 SEKUNDY
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        addTitle();
+        addTitle(); // TODO GDZIES TUTAJ WRZUC UPDATE
         addInfos();
         final Scene scene = new Scene(root, 1200, 800);
         stage.setScene(scene);
