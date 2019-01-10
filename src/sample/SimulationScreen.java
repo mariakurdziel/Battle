@@ -6,12 +6,17 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import sample.SetTypes.ArmyTypes;
 
 public class SimulationScreen extends Application {
 
@@ -73,10 +78,10 @@ public class SimulationScreen extends Application {
 
     private void drawShape(GraphicsContext gc) {
 
-        gc.setFill(Color.RED);
+        gc.setFill(Color.BLUE);
         gc.fillRect(950, 120, 25, 25);
 
-        gc.setFill(Color.YELLOW);
+        gc.setFill(Color.RED);
         gc.fillRect(950, 400, 25, 25);
     }
 
@@ -117,7 +122,55 @@ public class SimulationScreen extends Application {
         launch(args);
     }
 
+    public void printArmyBlue(){
+        int distanceX=0, distanceY=0;
+        int widthX=6, widthY=6;
+        int radius =5;
+        HBox shapesRootBlue = new HBox();
+        for (int i=0; i < armyBlue.getNumber(); i++) {
+            Circle c1 = new Circle(100+distanceX, 200+distanceY, radius);
+            c1.setStroke(Color.BLUE);
+            c1.setFill(Color.BLUE);
+            c1.setStrokeWidth(1);
+            distanceX += widthX;
+            if(i%10==0){
+                distanceY += widthY;
+            }
+            shapesRootBlue.getChildren().add(c1);
+        }
+        // Set Spacing of the HBox
+        shapesRootBlue.setSpacing(5);
+        Scene shapesScene = new Scene(shapesRootBlue);
+        stage.setScene(shapesScene);
+        stage.show();
+    }
+
+    public void printArmyRed(){
+        int distanceX=0, distanceY=0;
+        int widthX=6, widthY=6;
+        int radius =5;
+        HBox shapesRootRed = new HBox();
+        for (int i=0; i < armyRed.getNumber(); i++) {
+            Circle c1 = new Circle(100+distanceX, 500-distanceY, radius);
+            c1.setStroke(Color.RED);
+            c1.setFill(Color.RED);
+            c1.setStrokeWidth(1);
+            distanceX += widthX;
+            if(i%10==0){
+                distanceY += widthY;
+            }
+            shapesRootRed.getChildren().add(c1);
+        }
+        // Set Spacing of the HBox
+        shapesRootRed.setSpacing(5);
+        Scene shapesScene = new Scene(shapesRootRed);
+        stage.setScene(shapesScene);
+        stage.show();
+    }
+
     public void update() {
+        printArmyRed();
+        printArmyBlue();
         // TODO
         // TODO CZY ZABILES KOGOS
         // TODO PODZIEL NA GRUPKI ARMIE
@@ -134,6 +187,7 @@ public class SimulationScreen extends Application {
             //update();
             addTitle(); // TODO GDZIES TUTAJ WRZUC UPDATE
             addInfos();
+            update();
             final Scene scene = new Scene(rootx, 1200, 800);
             stage.setScene(scene);
             stage.setTitle("Simulation");
