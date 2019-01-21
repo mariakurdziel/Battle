@@ -18,6 +18,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import sample.SetTypes.ArmyTypes;
 
+import java.util.concurrent.TimeUnit;
+
 public class SimulationScreen extends Application {
 
 
@@ -123,76 +125,69 @@ public class SimulationScreen extends Application {
     }
 
     public void printArmyBlue(){
-        int distanceX=0, distanceY=0;
-        int widthX=6, widthY=6;
-        int radius =5;
-        HBox shapesRootBlue = new HBox();
-        for (int i=0; i < armyBlue.getNumber(); i++) {
-            Circle c1 = new Circle(100+distanceX, 200+distanceY, radius);
+        double distanceX = 0.0, distanceY = 0.0;
+        double widthX = 5.0;
+        double widthY = 15.0;
+        double radius = 5.0;
+
+        for (int i=1; i <= armyBlue.getNumber(); i++) {
+            Circle c1 = new Circle(100.0+distanceX, 200.0+distanceY, radius);
+            distanceX = distanceX + 10.0;
+            distanceX += widthX;
+            if((i % 30)==0){
+                distanceX = 0.0;
+                distanceY += widthY;
+            }
             c1.setStroke(Color.BLUE);
             c1.setFill(Color.BLUE);
             c1.setStrokeWidth(1);
-            distanceX += widthX;
-            if(i%10==0){
-                distanceY += widthY;
-            }
-            shapesRootBlue.getChildren().add(c1);
+            rootx.getChildren().add(c1);
         }
-        // Set Spacing of the HBox
-        shapesRootBlue.setSpacing(5);
-        Scene shapesScene = new Scene(shapesRootBlue);
-        stage.setScene(shapesScene);
-        stage.show();
     }
 
     public void printArmyRed(){
-        int distanceX=0, distanceY=0;
-        int widthX=6, widthY=6;
-        int radius =5;
-        HBox shapesRootRed = new HBox();
-        for (int i=0; i < armyRed.getNumber(); i++) {
-            Circle c1 = new Circle(100+distanceX, 500-distanceY, radius);
+        double distanceX = 0.0, distanceY = 0.0;
+        double widthX = 5.0;
+        double widthY = 15.0;
+        double radius = 5.0;
+
+        for (int i=1; i <= armyRed.getNumber(); i++) {
+            Circle c1 = new Circle(100.0+distanceX, 700.0+distanceY, radius);
+            distanceX = distanceX + 10.0;
+            distanceX += widthX;
+            if((i % 30)==0){
+                distanceX = 0.0;
+                distanceY -= widthY;
+            }
             c1.setStroke(Color.RED);
             c1.setFill(Color.RED);
             c1.setStrokeWidth(1);
-            distanceX += widthX;
-            if(i%10==0){
-                distanceY += widthY;
-            }
-            shapesRootRed.getChildren().add(c1);
+            rootx.getChildren().add(c1);
         }
-        // Set Spacing of the HBox
-        shapesRootRed.setSpacing(5);
-        Scene shapesScene = new Scene(shapesRootRed);
-        stage.setScene(shapesScene);
-        stage.show();
     }
 
     public void update() {
-        printArmyRed();
         printArmyBlue();
-        // TODO
-        // TODO CZY ZABILES KOGOS
-        // TODO PODZIEL NA GRUPKI ARMIE
-        // TODO DLA KAZDEJ GRUPKI SZANSA NA UNIKNIECIE ATAKU
-        // TODO ANIMACJA
-        // TODO POWTORZ CO 0.5 SEKUNDY
+        printArmyRed();
+        int i = 0;
+        while (i < 1000){
+            predictions.lanchesterEquation(armyBlue, armyRed);
+        System.out.println(predictions.blueHealth + " " + predictions.redHealth);
+        i++;
+    }
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-      //  while(predictions.whoWon != 1 || predictions.whoWon != 1) { // ava.lang.IllegalArgumentException: Group@1bb34940[styleClass=root]is already set as root of another scene
-                // zmienic to tak zeby bylo w petli jakos, moze co 0.5 sekundy czy cos?
-            rootx.getChildren().clear();
-            //update();
-            addTitle(); // TODO GDZIES TUTAJ WRZUC UPDATE
-            addInfos();
-            update();
+
             final Scene scene = new Scene(rootx, 1200, 800);
+            update();
+            addTitle();
+            addInfos();
             stage.setScene(scene);
             stage.setTitle("Simulation");
             stage.show();
-      //  }
+
     }
 
 }

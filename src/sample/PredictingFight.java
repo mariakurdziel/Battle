@@ -12,8 +12,8 @@ public class PredictingFight {
     private double firePowerRed;
     private double numberRed;
     private double solution;
-    private double blueHealth;
-    private double redHealth;
+    public double blueHealth;
+    public double redHealth;
     public int whoWon = 0;
 
     public int lanchesterEquation(Army blue, Army red) {
@@ -57,12 +57,18 @@ public class PredictingFight {
             int blueChance = randBlue.nextInt(100);
             int redChance = randRed.nextInt(100);
 
-              if(blueChance < blue.getAgility()){
-                  redHealth -= (blue.getAttack() * blue.getAttackSpeed()) - red.getArmorStats();
+              if(redChance > red.getAgility()){
+                  double dmg = (blue.getAttack() * blue.getAttackSpeed()) - red.getArmorStats();
+                  redHealth -= dmg;
+                  if(redHealth <= 0) whoWon = 1;
+                  else red.setHealthPoints(red.getHealthPoints() - dmg);
               }
 
-              if(redChance < red.getAgility()){
-                  blueHealth -= (red.getAttack() * red.getAttackSpeed()) - red.getArmorStats();
+              if(blueChance > blue.getAgility()){
+                  double dmg = (red.getAttack() * red.getAttackSpeed()) - red.getArmorStats();
+                  blueHealth -= dmg;
+                  if(blueHealth <= 0) whoWon = -1;
+                  else blue.setHealthPoints(blue.getHealthPoints() - dmg);
               }
     }
 
