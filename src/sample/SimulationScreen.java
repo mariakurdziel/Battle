@@ -18,6 +18,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import sample.SetTypes.ArmyTypes;
 
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class SimulationScreen extends Application {
@@ -60,10 +61,10 @@ public class SimulationScreen extends Application {
             return x.getArmor();
         else if (text.getAttribute().equals("Weapon"))
             return x.getWeapon();
-        else if (text.getAttribute().equals("Morale"))
-            return String.valueOf((x.getMorale()));
         else if (text.getAttribute().equals("HealthPoints"))
             return String.valueOf((x.getHealthPoints()));
+        else if (text.getAttribute().equals("Morale"))      // TODO zeby to zmienic i od razu tez dac mozliwosc wyboru ilosci grupy
+            return String.valueOf((x.getSquads().size())); // TODO morale jest na grupe -> narazie wrzucona ilosc grup
         else if (text.getAttribute().equals("Agility"))
             return String.valueOf((x.getAgility())).substring(0,3);
         else if (text.getAttribute().equals("Atak"))
@@ -125,18 +126,18 @@ public class SimulationScreen extends Application {
     }
 
     public void printArmyBlue(){
-        double distanceX = 0.0, distanceY = 0.0;
-        double widthX = 5.0;
-        double widthY = 15.0;
+        int x;
+        int y;
+        int widthY = 15;
         double radius = 5.0;
 
-        for (int i=1; i <= armyBlue.getNumber(); i++) {
-            Circle c1 = new Circle(100.0+distanceX, 200.0+distanceY, radius);
-            distanceX = distanceX + 10.0;
-            distanceX += widthX;
+        for (int i=0; i < armyBlue.getSquads().size(); i++) {
+            x = armyBlue.getSquads().get(i).getX();
+            y = armyBlue.getSquads().get(i).getY();
+            Circle c1 = new Circle(x+100, y+200, radius);
             if((i % 30)==0){
-                distanceX = 0.0;
-                distanceY += widthY;
+                x = 0;
+                y -= widthY;
             }
             c1.setStroke(Color.BLUE);
             c1.setFill(Color.BLUE);
@@ -146,18 +147,18 @@ public class SimulationScreen extends Application {
     }
 
     public void printArmyRed(){
-        double distanceX = 0.0, distanceY = 0.0;
-        double widthX = 5.0;
-        double widthY = 15.0;
+        int x;
+        int y;
+        int widthY = 15;
         double radius = 5.0;
 
-        for (int i=1; i <= armyRed.getNumber(); i++) {
-            Circle c1 = new Circle(100.0+distanceX, 700.0+distanceY, radius);
-            distanceX = distanceX + 10.0;
-            distanceX += widthX;
+        for (int i=0; i < armyRed.getSquads().size(); i++) {
+            x = armyRed.getSquads().get(i).getX();
+            y = armyRed.getSquads().get(i).getY();
+            Circle c1 = new Circle(x+100, y+700, radius);
             if((i % 30)==0){
-                distanceX = 0.0;
-                distanceY -= widthY;
+                x = 0;
+                y -= widthY;
             }
             c1.setStroke(Color.RED);
             c1.setFill(Color.RED);
@@ -169,12 +170,8 @@ public class SimulationScreen extends Application {
     public void update() {
         printArmyBlue();
         printArmyRed();
-        int i = 0;
-        while (i < 1000){
-            predictions.lanchesterEquation(armyBlue, armyRed);
-        System.out.println(predictions.blueHealth + " " + predictions.redHealth);
-        i++;
-    }
+        int temp = predictions.whoWon;
+        predictions.lanchesterEquation(armyBlue, armyRed);
     }
 
     @Override
@@ -186,9 +183,7 @@ public class SimulationScreen extends Application {
             addInfos();
             stage.setScene(scene);
             stage.setTitle("Simulation");
-            stage.show();
-
-    }
+            stage.show();}
 
 }
 

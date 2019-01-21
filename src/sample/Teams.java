@@ -16,11 +16,16 @@ import sample.SetTypes.ArmyTypes;
 import sample.SetTypes.WeaponTypes;
 import sample.SetTypes.ArmorTypes;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 public class Teams {
 
+    public List squads = new ArrayList();
     public Group root = new Group();
-    public Army army = new Army("","","", 0,0,0,0);
+    public Army army = new Army("","","", 0,0,0,0, squads);
     boolean isReady = false;
     MenuButton warriorButton = new MenuButton("Warrior", null, null);
     MenuButton armorButton = new MenuButton("Armor", null, null);
@@ -56,7 +61,6 @@ public class Teams {
                                                 warriorButton.setText(types.getWarrior());
                                             }
                                         }
-                                army.setMorale(1);
                                 isReady = true;
                             }
                     ));
@@ -161,8 +165,19 @@ public class Teams {
     public void pickNumber(){
         try {
             addingNumberButton.setOnAction(
-                    event ->
-                            army.setNumber(Integer.parseInt(numberField.getText()))
+                    event -> {
+                        army.setNumber(Integer.parseInt(numberField.getText())); // narazie narzucone /5
+                        for (int i = 0; i < 5; i++) {
+                            Squads sqd = new Squads(i * 20 + 10, 10, army.getNumber() / 5,
+                                    army.getNumber() * army.getHealthPoints() / 5);
+                            sqd.setAgility(army.getAgility());
+                            sqd.setAttack(army.getAttack());
+                            sqd.setArmorStats(army.getArmorStats());
+                            sqd.setAttackSpeed(army.getAttackSpeed());
+                            squads.add(sqd);
+                            army.setSquads(squads);
+                        }
+                    }
             );
         } catch (Exception e){
             System.out.println("ERROR: Number incorrect.");

@@ -1,5 +1,7 @@
 package sample;
 
+import java.util.List;
+
 public class Army {
 
     private String warrior;
@@ -10,12 +12,11 @@ public class Army {
     private double attackSpeed;
     private double attack;
     private double armorStats;
-
-
     private int number;
-    private double morale = 1;
+    private List<Squads> squads;
 
-    Army(String warrior, String armor, String weapon, double healthPoints, double agility, double attackSpeed, int number){
+    Army(String warrior, String armor, String weapon, double healthPoints, double agility,
+         double attackSpeed, int number, List<Squads> squads){
         this.warrior = warrior;
         this.armor = armor;
         this.weapon = weapon;
@@ -23,6 +24,7 @@ public class Army {
         this.agility = agility;
         this.attackSpeed = attackSpeed;
         this.number = number;
+        this.squads = squads;
     }
 
     public String getWarrior() {
@@ -97,12 +99,12 @@ public class Army {
         this.number = number;
     }
 
-    public double getMorale() {
-        return this.morale;
+    public List<Squads> getSquads() {
+        return squads;
     }
 
-    public void setMorale(double morale) {
-        this.morale = morale;
+    public void setSquads(List<Squads> squads) {
+        this.squads = squads;
     }
 
 }
