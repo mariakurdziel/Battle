@@ -182,6 +182,14 @@ public class Teams {
         pickSquadNumber();
     }
 
+//    public int howManySquads(int get){
+//        int result;
+//
+//
+//
+//        return result;
+//    }
+
     public void pickSquadNumber(){
         try {
             addingSquadsButton.setOnAction(
@@ -190,12 +198,11 @@ public class Teams {
                         if(howMuch > army.getNumber()) { System.out.println("Zla wartosc"); } // zmienic jakos
                         else {
                             for (int i = 0; i < howMuch; i++) {
-                                if(army.getNumber() % howMuch != 0 &&
-                                    i == howMuch - 1) {
-                                    Squads sqd = new Squads(i * 20 + 10, 10, army.getNumber() / howMuch,
+                                if(army.getNumber() % howMuch != 0) {
+                                    Squads sqd = new Squads(10, 10, army.getNumber() / howMuch,
                                             army.getNumber() * army.getHealthPoints() / howMuch);
                                 }
-                                Squads sqd = new Squads(i * 20 + 10, 10, army.getNumber() / howMuch,
+                                Squads sqd = new Squads(10, 10, army.getNumber() / howMuch,
                                         army.getNumber() * army.getHealthPoints() / howMuch);
                                 sqd.setAgility(army.getAgility());
                                 sqd.setAttack(army.getAttack());

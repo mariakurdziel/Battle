@@ -152,14 +152,15 @@ public class SimulationScreen extends Application {
         int widthY = 15;
         double radius = 5.0;
 
-        for (int i=0; i < armyRed.getSquads().size(); i++) {
+        for (int i = 0; i < armyRed.getSquads().size(); i++) {
             x = armyRed.getSquads().get(i).getX();
             y = armyRed.getSquads().get(i).getY();
-            Circle c1 = new Circle(x+100, y+700, radius);
             if((i % 30)==0){
                 x = 0;
-                y -= widthY;
+                y = y + widthY;
             }
+            Circle c1 = new Circle(x+100, y+700, radius);
+
             c1.setStroke(Color.RED);
             c1.setFill(Color.RED);
             c1.setStrokeWidth(1);
