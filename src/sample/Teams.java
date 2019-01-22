@@ -30,8 +30,10 @@ public class Teams {
     MenuButton warriorButton = new MenuButton("Warrior", null, null);
     MenuButton armorButton = new MenuButton("Armor", null, null);
     MenuButton weaponButton = new MenuButton("Weapon", null, null);
-    Button addingNumberButton = new Button("Add");
+    Button addingNumberButton = new Button("Add number");
+    Button addingSquadsButton = new Button("Divide into squads");
     TextField numberField = new TextField();
+    TextField squadsField = new TextField();
 
     public void addWarriorPanel() {
 
@@ -81,10 +83,6 @@ public class Teams {
         }
 
         HBox hbox = new HBox(armorButton);
-
-        // wrzucic informacje o aktualnie wybranym wojowniku po prawej!
-        // w jakiegos cos, metode moze czy zmienne stale WGL CALY INTERFEJS!!!
-        // BEZ HARDKODOWANIA
         hbox.setLayoutX(140);
         hbox.setLayoutY(120);
         root.getChildren().addAll(hbox);
@@ -165,17 +163,47 @@ public class Teams {
     public void pickNumber(){
         try {
             addingNumberButton.setOnAction(
+                    event -> army.setNumber(Integer.parseInt(numberField.getText()))
+            );} catch (Exception e){
+            System.out.println("ERROR: Number incorrect.");
+        }
+    }
+
+
+    public void addSquadPanel() {
+        HBox hbox = new HBox(squadsField);
+        hbox.setLayoutX(340);
+        hbox.setLayoutY(200);       // TODO POZMIENIAC WSZEDZIE TE HARDKODOWANE INFORMACJE NA TE Z ENUMA MARII
+        HBox hboxbutton = new HBox(addingSquadsButton);
+        hboxbutton.setLayoutX(400);
+        hboxbutton.setLayoutY(240);
+        root.getChildren().addAll(hbox);
+        root.getChildren().addAll(hboxbutton);
+        pickSquadNumber();
+    }
+
+    public void pickSquadNumber(){
+        try {
+            addingSquadsButton.setOnAction(
                     event -> {
-                        army.setNumber(Integer.parseInt(numberField.getText())); // narazie narzucone /5
-                        for (int i = 0; i < 5; i++) {
-                            Squads sqd = new Squads(i * 20 + 10, 10, army.getNumber() / 5,
-                                    army.getNumber() * army.getHealthPoints() / 5);
-                            sqd.setAgility(army.getAgility());
-                            sqd.setAttack(army.getAttack());
-                            sqd.setArmorStats(army.getArmorStats());
-                            sqd.setAttackSpeed(army.getAttackSpeed());
-                            squads.add(sqd);
-                            army.setSquads(squads);
+                        int howMuch = Integer.parseInt(squadsField.getText());
+                        if(howMuch > army.getNumber()) { System.out.println("Zla wartosc"); } // zmienic jakos
+                        else {
+                            for (int i = 0; i < howMuch; i++) {
+                                if(army.getNumber() % howMuch != 0 &&
+                                    i == howMuch - 1) {
+                                    Squads sqd = new Squads(i * 20 + 10, 10, army.getNumber() / howMuch,
+                                            army.getNumber() * army.getHealthPoints() / howMuch);
+                                }
+                                Squads sqd = new Squads(i * 20 + 10, 10, army.getNumber() / howMuch,
+                                        army.getNumber() * army.getHealthPoints() / howMuch);
+                                sqd.setAgility(army.getAgility());
+                                sqd.setAttack(army.getAttack());
+                                sqd.setArmorStats(army.getArmorStats());
+                                sqd.setAttackSpeed(army.getAttackSpeed());
+                                squads.add(sqd);
+                                army.setSquads(squads);
+                            }
                         }
                     }
             );
@@ -183,7 +211,6 @@ public class Teams {
             System.out.println("ERROR: Number incorrect.");
         }
     }
-
 
     public void addText() {
 
@@ -223,6 +250,7 @@ public class Teams {
         addArmorPanel();
         addWeaponPanel();
         addNumberPanel();
+        addSquadPanel();
         return root;
     }
 }

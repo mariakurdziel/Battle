@@ -6,7 +6,7 @@ public enum TextHandler {
     TEXT_B2("B","Warrior","Wojownik: ",950,180,16),
     TEXT_B3("B","Armor","Uzbrojenie: ",950,200,16),
     TEXT_B4("B","Weapon","Broń: ",950,220,16),
-    TEXT_B5("B","Morale","Morale: ",950,240,16),
+    TEXT_B5("B","Morale","Ilosc druzyn: ",950,240,16),
     TEXT_B6("B","HealthPoints","Życia: ",950,260,16),
     TEXT_B7("B","Agility","Zwinność: ",950,280,16),
     TEXT_B8("B","Atak","Atak: ",950,300,16),
