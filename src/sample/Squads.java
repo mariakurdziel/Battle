@@ -10,6 +10,7 @@ public class Squads {
     private double armorStats;
     private double attack;
     private double attackSpeed;
+    private Squads attackedSquad;
 
     public double getAgility() {
         return agility;
@@ -50,6 +51,14 @@ public class Squads {
         this.y = y;
         this.population = population;
         this.health = health;
+    }
+
+    public Squads getAttackedSquad() {
+        return attackedSquad;
+    }
+
+    public void setAttackedSquad(Squads attackedSquad){
+        this.attackedSquad = attackedSquad;
     }
 
     public int getX() {

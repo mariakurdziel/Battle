@@ -3,6 +3,8 @@ package sample;
 
 import sample.SetTypes.ArmorTypes;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class PredictingFight {
@@ -11,17 +13,19 @@ public class PredictingFight {
     private double numberBlue;
     private double firePowerRed;
     private double numberRed;
+    private double damageDealt = 0;
     public double solution;
     public double blueHealth;
     public double redHealth;
     public int whoWon;
 
     public void updateInfo(Army blue, Army red){
+        searchForEnemySquads(blue, red);
         for (Squads sqd : blue.getSquads()) {
             for(Squads sqdr : red.getSquads()) {
                 changingMorale(sqd, sqdr);
                 summaryHealth(sqd, sqdr);
-                killingEnemy(sqd, sqdr);
+                killingEnemy(blue, sqd, sqdr);
             }
         }
     }
@@ -29,6 +33,7 @@ public class PredictingFight {
     public int lanchesterEquation(Army blue, Army red) {
         
         updateInfo(blue, red);
+        updateInfo(red, blue);
         numberBlue = blue.getNumber();
         numberRed = red.getNumber();
         firePowerBlue = (blue.getAttack()) * (blue.getAttackSpeed()) +
@@ -52,7 +57,7 @@ public class PredictingFight {
         else if ( blue.getPopulation() / red.getPopulation() == 1) { red.setMorale(red.getMorale() + 0.0);blue.setMorale(red.getMorale() + 0.0); }
         else if ( blue.getPopulation() / red.getPopulation() < 0.6) { red.setMorale(red.getMorale() + 0.2);blue.setMorale(red.getMorale() - 0.2); }
         else if ( blue.getPopulation() / red.getPopulation() <= 0.5) {red.setMorale(red.getMorale() + 0.5);blue.setMorale(red.getMorale() - 0.5); }
-        else if ( blue.getPopulation() / red.getPopulation() <= 0.4) { solution = -1; whoWon = -1; }
+        else if ( blue.getPopulation() / red.getPopulation() <= 0.4) { solution = -1; whoWon = 1; }
     }
 
     public void summaryHealth(Squads blue, Squads red){
@@ -60,7 +65,8 @@ public class PredictingFight {
         blueHealth = blue.getHealth() * blue.getPopulation();
     }
 
-    public void killingEnemy(Squads blue, Squads red){
+    public void killingEnemy(Army blueA, Squads blue, Squads red){
+
             Random randBlue = new Random();
             int blueChance = randBlue.nextInt(100);
 
@@ -69,9 +75,36 @@ public class PredictingFight {
                 double dmg = (red.getAttack() * red.getAttackSpeed()) - blue.getArmorStats();
                 blueHealth -= dmg;
                 blue.setHealth(blue.getHealth() - dmg);
+                damageDealt += dmg;
+                int howManyDied = (int)(damageDealt / blueA.getHealthPoints());
+
+                if(howManyDied >= 1){
+                    damageDealt = damageDealt - howManyDied*blueA.getHealthPoints();
+                    blue.setPopulation(blue.getPopulation() - howManyDied);
+                    if(blue.getPopulation() <= 0){
+                        break;
+                    }
+                }
             }
             if (blueHealth <= 0) { whoWon = 1; }
         }
+    }
+
+    public void searchForEnemySquads(Army blue, Army red){
+        for (Squads squadBlue : blue.getSquads()) {
+            ArrayList coordsTab = new ArrayList<Integer>();
+            for(Squads squadRed : red.getSquads()){
+                int distance = closestSquad(squadBlue.getX(), squadBlue.getY(), squadRed.getX(), squadRed.getY());
+                coordsTab.add(distance);
+            }
+            int enemyIndex = coordsTab.indexOf(Collections.min(coordsTab));
+            squadBlue.setAttackedSquad(red.getSquads().get(enemyIndex));
+        }
+    }
+
+    public int closestSquad(int x, int y, int ex, int ey){
+        int result = (int)Math.sqrt(Math.abs((x-ex)^2 + (y-ey)^2));
+        return result;
     }
 
     public void BresenhamFinding(Squads red, Squads blue){

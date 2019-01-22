@@ -3,9 +3,9 @@ package sample.SetTypes;
 public enum ArmyTypes {
 
     VIKING("Viking", 120.0, 0.15, 2.2),
-    MONGOLS("Mongols",130,0.12, 2.1),
+    MONGOLS("Mongols",130.0,0.12, 2.1),
     TEUTONIC("Teutonic knight", 150.0, 0.1, 2.0),
-    SAMURAI("Samurai", 100, 0.13, 2.4);
+    SAMURAI("Samurai", 100.0, 0.13, 2.4);
 
     private String warrior;
     private double healthPoints;

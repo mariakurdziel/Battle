@@ -19,6 +19,7 @@ import sample.SetTypes.ArmorTypes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 
 public class Teams {
@@ -182,34 +183,37 @@ public class Teams {
         pickSquadNumber();
     }
 
-//    public int howManySquads(int get){
-//        int result;
-//
-//
-//
-//        return result;
-//    }
+    public int assignToSquad(int howMuch){
+
+        Random rand = new Random();
+        int n = rand.nextInt(howMuch);
+        return n;
+    }
 
     public void pickSquadNumber(){
         try {
             addingSquadsButton.setOnAction(
                     event -> {
                         int howMuch = Integer.parseInt(squadsField.getText());
-                        if(howMuch > army.getNumber()) { System.out.println("Zla wartosc"); } // zmienic jakos
+                        if(howMuch > army.getNumber()) { System.out.println("Zla wartosc"); }
                         else {
                             for (int i = 0; i < howMuch; i++) {
-                                if(army.getNumber() % howMuch != 0) {
-                                    Squads sqd = new Squads(10, 10, army.getNumber() / howMuch,
-                                            army.getNumber() * army.getHealthPoints() / howMuch);
-                                }
                                 Squads sqd = new Squads(10, 10, army.getNumber() / howMuch,
-                                        army.getNumber() * army.getHealthPoints() / howMuch);
+                                        army.getHealthPoints() * (army.getNumber() / howMuch));
                                 sqd.setAgility(army.getAgility());
                                 sqd.setAttack(army.getAttack());
                                 sqd.setArmorStats(army.getArmorStats());
                                 sqd.setAttackSpeed(army.getAttackSpeed());
                                 squads.add(sqd);
                                 army.setSquads(squads);
+                            }
+                            if(army.getNumber() % howMuch != 0) {
+                                int peopleToAssign = army.getNumber() - howMuch*(army.getNumber() / howMuch);
+                                for(int i = 0; i < peopleToAssign; i++) {
+                                    int n = assignToSquad(howMuch);
+                                    army.getSquads().get(n).setPopulation(army.getSquads().get(n).getPopulation() + 1);
+                                    army.getSquads().get(n).setHealth(army.getSquads().get(n).getHealth() + army.getHealthPoints());
+                                }
                             }
                         }
                     }

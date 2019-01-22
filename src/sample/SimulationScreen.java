@@ -29,13 +29,17 @@ public class SimulationScreen extends Application {
     Army armyBlue;
     Army armyRed;
     PredictingFight predictions = new PredictingFight();
+    int populationBlueStart;
+    int populationRedStart;
 
     public void setArmyBlue(Army armyBlue) {
         this.armyBlue = armyBlue;
+        populationBlueStart = armyBlue.getNumber();
     }
 
     public void setArmyRed(Army armyRed) {
         this.armyRed = armyRed;
+        populationRedStart = armyRed.getNumber();
     }
 
     public String setLanchesterEquation(Army armyBlue, Army armyRed){
@@ -63,8 +67,8 @@ public class SimulationScreen extends Application {
             return x.getWeapon();
         else if (text.getAttribute().equals("HealthPoints"))
             return String.valueOf((x.getHealthPoints()));
-        else if (text.getAttribute().equals("Morale"))      // TODO zeby to zmienic i od razu tez dac mozliwosc wyboru ilosci grupy
-            return String.valueOf((x.getSquads().size())); // TODO morale jest na grupe -> narazie wrzucona ilosc grup
+        else if (text.getAttribute().equals("Squads"))
+            return String.valueOf((x.getSquads().size()));
         else if (text.getAttribute().equals("Agility"))
             return String.valueOf((x.getAgility())).substring(0,3);
         else if (text.getAttribute().equals("Atak"))
@@ -126,19 +130,22 @@ public class SimulationScreen extends Application {
     }
 
     public void printArmyBlue(){
-        int x;
-        int y;
+        int x = 100;
+        int y = 200;
         int widthY = 15;
         double radius = 5.0;
 
-        for (int i=0; i < armyBlue.getSquads().size(); i++) {
-            x = armyBlue.getSquads().get(i).getX();
-            y = armyBlue.getSquads().get(i).getY();
-            Circle c1 = new Circle(x+100, y+200, radius);
-            if((i % 30)==0){
-                x = 0;
-                y -= widthY;
+        for (int i = 0; i < armyBlue.getSquads().size(); i++) {
+            armyBlue.getSquads().get(i).setX(armyBlue.getSquads().get(i).getX() + (x*i + 10));
+            armyBlue.getSquads().get(i).setY(armyBlue.getSquads().get(i).getY() + y);
+
+            if((i % 30)==0 && i != 0){
+                x = 100;
+                y = y + widthY;
             }
+
+            Circle c1 = new Circle(x, y, radius);
+            x += widthY;
             c1.setStroke(Color.BLUE);
             c1.setFill(Color.BLUE);
             c1.setStrokeWidth(1);
@@ -147,20 +154,22 @@ public class SimulationScreen extends Application {
     }
 
     public void printArmyRed(){
-        int x;
-        int y;
+        int x = 100;
+        int y = 600;
         int widthY = 15;
         double radius = 5.0;
 
         for (int i = 0; i < armyRed.getSquads().size(); i++) {
-            x = armyRed.getSquads().get(i).getX();
-            y = armyRed.getSquads().get(i).getY();
-            if((i % 30)==0){
-                x = 0;
+            armyRed.getSquads().get(i).setX(armyRed.getSquads().get(i).getX() + (x*i + 10));
+            armyRed.getSquads().get(i).setY(armyRed.getSquads().get(i).getY() + y);
+
+            if((i % 30)==0 && i != 0){
+                x = 100;
                 y = y + widthY;
             }
-            Circle c1 = new Circle(x+100, y+700, radius);
 
+            Circle c1 = new Circle(x, y, radius);
+            x += widthY;
             c1.setStroke(Color.RED);
             c1.setFill(Color.RED);
             c1.setStrokeWidth(1);
@@ -172,7 +181,29 @@ public class SimulationScreen extends Application {
         printArmyBlue();
         printArmyRed();
         int temp = predictions.whoWon;
-        predictions.lanchesterEquation(armyBlue, armyRed);
+
+      //  while (temp != 1) {
+            predictions.lanchesterEquation(armyBlue, armyRed);
+            for (int i = 0; i < armyRed.getSquads().size(); i++) {
+                System.out.println("Czerwoni, oddzial: " + i + ", populacja: " + armyRed.getSquads().get(i).getPopulation()
+                        + ", zycie: " + armyRed.getSquads().get(i).getHealth()
+                        + ", moje polozenie: " + armyRed.getSquads().get(i).getX()
+                        + ", " + armyRed.getSquads().get(i).getY()
+                        + ", wybrany wrog polozenie: " + armyRed.getSquads().get(i).getAttackedSquad().getX()
+                        + ", " + armyRed.getSquads().get(i).getAttackedSquad().getY());
+            }
+            for (int i = 0; i < armyBlue.getSquads().size(); i++) {
+                System.out.println("Niebiescy, oddzial: " + i + ", populacja: " + armyBlue.getSquads().get(i).getPopulation()
+                        + ", zycie: " + armyBlue.getSquads().get(i).getHealth()
+                        + ", moje polozenie: " + armyBlue.getSquads().get(i).getX()
+                        + ", " + armyBlue.getSquads().get(i).getY()
+                        + ", wybrany wrog polozenie: " + armyBlue.getSquads().get(i).getAttackedSquad().getX()
+                        + ", " + armyBlue.getSquads().get(i).getAttackedSquad().getY());
+            }
+        //    Scanner scanner = new Scanner(System.in);
+        //    String input = scanner.nextLine();
+
+      //  }
     }
 
     @Override
