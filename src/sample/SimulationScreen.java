@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -21,8 +22,11 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.Pair;
 import sample.SetTypes.ArmyTypes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +40,9 @@ public class SimulationScreen extends Application {
     PredictingFight predictions = new PredictingFight();
     int populationBlueStart;
     int populationRedStart;
+    double enemyLayoutY;
+    public List<Pair<Double,Double>> redLayouts =new ArrayList<Pair<Double,Double>>();
+    public List<Pair<Double,Double>> blueLayouts =new ArrayList<Pair<Double,Double>>();
 
     public void setArmyBlue(Army armyBlue) {
         this.armyBlue = armyBlue;
@@ -155,7 +162,10 @@ public class SimulationScreen extends Application {
             c1.setFill(Color.WHITE);
             c1.setStrokeWidth(1);
             rootx.getChildren().add(c1);
+
         }
+
+
     }
 
     public void printArmyRed(){
@@ -182,27 +192,70 @@ public class SimulationScreen extends Application {
         }
     }
 
+    public void attack(){
+        PredictingFight x= new PredictingFight();
+        for(int i=0; i<redLayouts.size();i++){
+            for(int j=0; j<blueLayouts.size();j++)
+            {
+                //System.out.println(redLayouts.get(j).getKey());
+                //System.out.println(blueLayouts.get(j).getKey());
+                if(redLayouts.get(i).getKey()==blueLayouts.get(j).getKey() && redLayouts.get(i).getValue()-blueLayouts.get(j).getValue()<20)
+                {
+                    if(x.lanchesterEquation(armyBlue,armyRed)==1) {
+                        Circle c1 = new Circle(redLayouts.get(j).getKey(), redLayouts.get(i).getValue(), 6.0);
+                        c1.setFill(Color.BLACK);
+                        c1.setFill(Color.WHITE);
+                    }
+                    else{
+                    Circle c1 = new Circle(blueLayouts.get(j).getKey(), blueLayouts.get(j).getValue(), 6.0);
+                    c1.setFill(Color.BLACK);
+                    c1.setFill(Color.WHITE);
+
+                }
+
+                }
+
+
+            }
+        }
+    }
+
     public void moveArmyRed(double speed){
 
         int x = 100;
         int y = 600;
+        double k=0;
+        double var=0;
         int widthY = 15;
+        double radius=5.0;
         for (int i = 0; i < armyRed.getSquads().size(); i++) {
 
+
+            if((i % 30)==0 && i != 0){
+                x = 100;
+                y = y + widthY;
+                k+=7;
+            }
+
+            if(i%30==2)
+                var=10;
+
             Circle c1 = new Circle(x, y, 5.0);
-            x += widthY;
             c1.setStroke(Color.RED);
             c1.setFill(Color.RED);
             c1.setStrokeWidth(1);
             rootx.getChildren().add(c1);
             Bounds bounds = rootx.getBoundsInLocal();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(speed), new KeyValue((c1.centerYProperty()), (bounds.getMaxY()+c1.getRadius())/2+50)));
+            redLayouts.add(new Pair<Double, Double>((double) x, bounds.getMaxY()/2-(5*c1.getRadius()/2)+k+var+5+(widthY+10)*Math.round(armyBlue.getSquads().size()/30)));
+            x+=widthY;
+            System.out.println(Double.toString(x));
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(speed), new KeyValue((c1.centerYProperty()), bounds.getMaxY()/2-(5*c1.getRadius()/2)+k+5+(widthY+10)*Math.round(armyBlue.getSquads().size()/30))));
             timeline.setCycleCount(1);
             timeline.play();
-            //System.out.println(c1.getLayoutY());
+
+
 
         }
-
 
     }
 
@@ -213,6 +266,11 @@ public class SimulationScreen extends Application {
         int widthY = 15;
         for (int i = 0; i < armyBlue.getSquads().size(); i++) {
 
+            if((i % 30)==0 && i != 0){
+                x = 100;
+                y = y + widthY;
+            }
+
 
 
             Circle c1 = new Circle(x, y, 5.0);
@@ -222,13 +280,13 @@ public class SimulationScreen extends Application {
             c1.setStrokeWidth(1);
             rootx.getChildren().add(c1);
             Bounds bounds = rootx.getBoundsInLocal();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new KeyValue(c1.centerYProperty(), (bounds.getMaxY()-c1.getRadius())/2)));
+            System.out.println(Double.toString(x));
+            blueLayouts.add(new Pair<Double, Double>((double) x,bounds.getMaxY()-5*c1.getRadius()/2));
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new KeyValue(c1.layoutYProperty(), (bounds.getMaxY()/2-5*c1.getRadius()/2))));
             timeline.setCycleCount(1);
             timeline.play();
 
         }
-
-
     }
 
 
@@ -237,6 +295,8 @@ public class SimulationScreen extends Application {
         printArmyRed();
         moveArmyBlue(armyBlue.getAttackSpeed());
         moveArmyRed(armyRed.getAttackSpeed());
+        attack();
+
         for (int i = 0; i < armyRed.getSquads().size(); i++) {
             System.out.println("Czerwoni, oddzial: " + i + ", populacja: " + armyRed.getSquads().get(i).getPopulation()
                     + ", zycie: " + armyRed.getSquads().get(i).getHealth()
@@ -248,6 +308,8 @@ public class SimulationScreen extends Application {
                     + ", zycie: " + armyBlue.getSquads().get(i).getHealth()
                     + ", moje polozenie: " + armyBlue.getSquads().get(i).getX()
                     + ", " + armyBlue.getSquads().get(i).getY());
+
+
         }
 
     }
@@ -280,11 +342,11 @@ public class SimulationScreen extends Application {
 
             final Scene scene = new Scene(rootx, 1200, 800);
             start();
-            while(!predictions.isTheEnd()) {
-                System.out.println("-----------------------------");
-                update();
+         //   while(!predictions.isTheEnd()) {
+           //     System.out.println("-----------------------------");
+             //   update();
 
-            }
+            //}
             addTitle();
             addInfos();
             stage.setScene(scene);
