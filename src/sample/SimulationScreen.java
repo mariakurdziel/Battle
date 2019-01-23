@@ -10,6 +10,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -340,15 +343,39 @@ public class SimulationScreen extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-            final Scene scene = new Scene(rootx, 1200, 800);
+        final Scene scene = new Scene(rootx, 1200, 800);
+        final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        final LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
+        xAxis.setLabel("Time");
+        yAxis.setLabel("Population");
+        lineChart.setLayoutX(1200.0);
+        lineChart.setLayoutY(100.0);
+        lineChart.setTitle("Population chart");
+        XYChart.Series seriesRed = new XYChart.Series();
+        XYChart.Series seriesBlue = new XYChart.Series();
+
+        int turn = 0;
             start();
             while(!predictions.isTheEnd()) {
+                lineChart.getData().clear();
+                turn++;
+
+
                 System.out.println("--------");
                 System.out.println(predictions.whosWinning());
                 System.out.println("-----------------------------");
                 update();
 
+                seriesRed.setName("Population red team");
+                seriesRed.getData().add(new XYChart.Data(turn, armyRed.getNumber()));
+              //  lineChart.getData().add(seriesRed);
+                seriesBlue.setName("Population blue team");
+                seriesBlue.getData().add(new XYChart.Data(turn, armyBlue.getNumber()));
+                lineChart.getData().addAll(seriesRed, seriesBlue);
             }
+             rootx.getChildren().add(lineChart);
+            System.out.println(predictions.whosWinning());
             addTitle();
             addInfos();
             stage.setScene(scene);
