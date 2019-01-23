@@ -10,6 +10,7 @@ public class Squads {
     private double armorStats;
     private double attack;
     private double attackSpeed;
+    private double damageDealt;
     private Squads attackedSquad;
 
     public double getAgility() {
@@ -51,6 +52,7 @@ public class Squads {
         this.y = y;
         this.population = population;
         this.health = health;
+        this.damageDealt = 0;
     }
 
     public Squads getAttackedSquad() {
@@ -93,6 +95,14 @@ public class Squads {
         this.health = health;
     }
 
+    public double getDamageDealt() {
+        return damageDealt;
+    }
+
+    public void setDamageDealt(double damageDealt) {
+        this.damageDealt = damageDealt;
+    }
+
     public double getMorale() {
         return morale;
     }
@@ -100,6 +110,5 @@ public class Squads {
     public void setMorale(double morale) {
         this.morale = morale;
     }
-
 
 }

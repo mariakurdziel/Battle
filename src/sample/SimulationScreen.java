@@ -177,16 +177,31 @@ public class SimulationScreen extends Application {
         }
     }
 
-    public void update() {
+    public void start() {
         printArmyBlue();
         printArmyRed();
-        int temp = predictions.whoWon;
+        for (int i = 0; i < armyRed.getSquads().size(); i++) {
+            System.out.println("Czerwoni, oddzial: " + i + ", populacja: " + armyRed.getSquads().get(i).getPopulation()
+                    + ", zycie: " + armyRed.getSquads().get(i).getHealth()
+                    + ", moje polozenie: " + armyRed.getSquads().get(i).getX()
+                    + ", " + armyRed.getSquads().get(i).getY());
+        }
+        for (int i = 0; i < armyBlue.getSquads().size(); i++) {
+            System.out.println("Niebiescy, oddzial: " + i + ", populacja: " + armyBlue.getSquads().get(i).getPopulation()
+                    + ", zycie: " + armyBlue.getSquads().get(i).getHealth()
+                    + ", moje polozenie: " + armyBlue.getSquads().get(i).getX()
+                    + ", " + armyBlue.getSquads().get(i).getY());
+        }
 
-      //  while (temp != 1) {
+    }
+
+    public void update() {
+
             predictions.lanchesterEquation(armyBlue, armyRed);
             for (int i = 0; i < armyRed.getSquads().size(); i++) {
                 System.out.println("Czerwoni, oddzial: " + i + ", populacja: " + armyRed.getSquads().get(i).getPopulation()
                         + ", zycie: " + armyRed.getSquads().get(i).getHealth()
+                        + ", morale: " + armyRed.getSquads().get(i).getMorale()
                         + ", moje polozenie: " + armyRed.getSquads().get(i).getX()
                         + ", " + armyRed.getSquads().get(i).getY()
                         + ", wybrany wrog polozenie: " + armyRed.getSquads().get(i).getAttackedSquad().getX()
@@ -195,22 +210,24 @@ public class SimulationScreen extends Application {
             for (int i = 0; i < armyBlue.getSquads().size(); i++) {
                 System.out.println("Niebiescy, oddzial: " + i + ", populacja: " + armyBlue.getSquads().get(i).getPopulation()
                         + ", zycie: " + armyBlue.getSquads().get(i).getHealth()
+                        + ", morale: " + armyBlue.getSquads().get(i).getMorale()
                         + ", moje polozenie: " + armyBlue.getSquads().get(i).getX()
                         + ", " + armyBlue.getSquads().get(i).getY()
                         + ", wybrany wrog polozenie: " + armyBlue.getSquads().get(i).getAttackedSquad().getX()
                         + ", " + armyBlue.getSquads().get(i).getAttackedSquad().getY());
             }
-        //    Scanner scanner = new Scanner(System.in);
-        //    String input = scanner.nextLine();
-
-      //  }
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
             final Scene scene = new Scene(rootx, 1200, 800);
-            update();
+            start();
+            while(!predictions.isTheEnd()) {
+                System.out.println("-----------------------------");
+                update();
+
+            }
             addTitle();
             addInfos();
             stage.setScene(scene);

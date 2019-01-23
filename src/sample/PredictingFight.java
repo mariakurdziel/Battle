@@ -13,25 +13,28 @@ public class PredictingFight {
     private double numberBlue;
     private double firePowerRed;
     private double numberRed;
-    private double damageDealt = 0;
     public double solution;
     public double blueHealth;
     public double redHealth;
-    public int whoWon;
+//    private ArrayList areKilled = new ArrayList<Squads>();
+    public int isEnd;
 
     public void updateInfo(Army blue, Army red){
         searchForEnemySquads(blue, red);
         for (Squads sqd : blue.getSquads()) {
-            for(Squads sqdr : red.getSquads()) {
-                changingMorale(sqd, sqdr);
-                summaryHealth(sqd, sqdr);
-                killingEnemy(blue, sqd, sqdr);
+             //   changingMorale(sqd, sqd.getAttackedSquad());
+                summaryHealth(sqd, sqd.getAttackedSquad());
+                killingEnemy(blue, sqd, sqd.getAttackedSquad());
             }
         }
+
+    public boolean isTheEnd(){
+        if (isEnd == 1) return true;
+        else return false;
     }
-    
+
     public int lanchesterEquation(Army blue, Army red) {
-        
+        isTheEnd();
         updateInfo(blue, red);
         updateInfo(red, blue);
         numberBlue = blue.getNumber();
@@ -51,13 +54,13 @@ public class PredictingFight {
 
     public void changingMorale(Squads blue, Squads red){
 
-        if ( blue.getPopulation() / red.getPopulation() >= 2.5) { solution = 1; whoWon = 1; }
-        else if ( blue.getPopulation() / red.getPopulation() >= 2) { red.setMorale(red.getMorale() - 0.5); blue.setMorale(red.getMorale() + 0.5); }
+//        if ( blue.getPopulation() / red.getPopulation() >= 2.5) { solution = 1; isEnd = 1; }
+        if ( blue.getPopulation() / red.getPopulation() >= 2) { red.setMorale(red.getMorale() - 0.5); blue.setMorale(red.getMorale() + 0.5); }
         else if ( blue.getPopulation() / red.getPopulation() > 1.5) {red.setMorale(red.getMorale() - 0.2);blue.setMorale(red.getMorale() + 0.2); }
         else if ( blue.getPopulation() / red.getPopulation() == 1) { red.setMorale(red.getMorale() + 0.0);blue.setMorale(red.getMorale() + 0.0); }
         else if ( blue.getPopulation() / red.getPopulation() < 0.6) { red.setMorale(red.getMorale() + 0.2);blue.setMorale(red.getMorale() - 0.2); }
         else if ( blue.getPopulation() / red.getPopulation() <= 0.5) {red.setMorale(red.getMorale() + 0.5);blue.setMorale(red.getMorale() - 0.5); }
-        else if ( blue.getPopulation() / red.getPopulation() <= 0.4) { solution = -1; whoWon = 1; }
+//        else if ( blue.getPopulation() / red.getPopulation() <= 0.4) { solution = -1; isEnd = 1; }
     }
 
     public void summaryHealth(Squads blue, Squads red){
@@ -71,22 +74,24 @@ public class PredictingFight {
             int blueChance = randBlue.nextInt(100);
 
         for (int i = 0; i < blue.getPopulation(); i++) {
-            if (blueChance > blue.getAgility()) {
+            if (blueChance > blue.getAgility()*100) {
                 double dmg = (red.getAttack() * red.getAttackSpeed()) - blue.getArmorStats();
                 blueHealth -= dmg;
                 blue.setHealth(blue.getHealth() - dmg);
-                damageDealt += dmg;
-                int howManyDied = (int)(damageDealt / blueA.getHealthPoints());
+                blue.setDamageDealt(blue.getDamageDealt() + dmg);
+                int howManyDied = (int)(blue.getDamageDealt() / (blueA.getHealthPoints()));
 
                 if(howManyDied >= 1){
-                    damageDealt = damageDealt - howManyDied*blueA.getHealthPoints();
+                    blue.setDamageDealt(blue.getDamageDealt() - howManyDied*blueA.getHealthPoints());
                     blue.setPopulation(blue.getPopulation() - howManyDied);
                     if(blue.getPopulation() <= 0){
-                        break;
+                       // areKilled
+                       // blueA.getSquads().remove(blue);
+                      //  isEnd = 1;
                     }
                 }
             }
-            if (blueHealth <= 0) { whoWon = 1; }
+     //       if (blueHealth <= 0) { isEnd = 1; }
         }
     }
 

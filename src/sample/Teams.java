@@ -223,30 +223,6 @@ public class Teams {
         }
     }
 
-    public void addText() {
-
-        DropShadow ds = new DropShadow();
-        ds.setOffsetY(3.0f);
-        ds.setColor(Color.color(0.4f, 0.4f, 0.4f));
-        Text t = new Text("Team settings:");
-        t.setEffect(ds);
-        t.setCache(true);
-        t.setX(145);
-        t.setY(60);
-        t.setFill(Color.RED);
-        t.setFont(Font.font(null, FontWeight.BOLD, 32));
-
-        Text t1 = new Text("(Ofensive)");
-        t1.setX(230);
-        t1.setY(100);
-        t1.setFont(Font.font(16));
-
-
-        t.setTextAlignment(TextAlignment.CENTER);
-        root.getChildren().addAll(t, t1);
-    }
-
-
     public Army setArmy(Army blue){
 
         if(isReady) {
