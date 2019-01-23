@@ -344,21 +344,36 @@ public class SimulationScreen extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         final Scene scene = new Scene(rootx, 1200, 800);
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        final LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
-        xAxis.setLabel("Time");
-        yAxis.setLabel("Population");
-        lineChart.setLayoutX(1200.0);
-        lineChart.setLayoutY(100.0);
-        lineChart.setTitle("Population chart");
+        final NumberAxis xAxisPopulation = new NumberAxis();
+        final NumberAxis yAxisPopulation = new NumberAxis();
+        final NumberAxis xAxisGroups = new NumberAxis();
+        final NumberAxis yAxisGroups = new NumberAxis();
+
+        final LineChart<Number,Number> populationChart = new LineChart<>(xAxisPopulation,yAxisPopulation);
+        final LineChart<Number,Number> groupsChart = new LineChart<>(xAxisGroups,yAxisGroups);
+
+        xAxisPopulation.setLabel("Time");
+        yAxisPopulation.setLabel("Population");
+        populationChart.setLayoutX(1200.0);
+        populationChart.setLayoutY(100.0);
+        populationChart.setTitle("Population chart");
         XYChart.Series seriesRed = new XYChart.Series();
         XYChart.Series seriesBlue = new XYChart.Series();
+
+        xAxisGroups.setLabel("Time");
+        yAxisGroups.setLabel("Groups");
+        groupsChart.setLayoutX(1200.0);
+        groupsChart.setLayoutY(500.0);
+        groupsChart.setTitle("Groups chart");
+        XYChart.Series seriesGroupsRed = new XYChart.Series();
+        XYChart.Series seriesGroupsBlue = new XYChart.Series();
+
 
         int turn = 0;
             start();
             while(!predictions.isTheEnd()) {
-                lineChart.getData().clear();
+                populationChart.getData().clear();
+                groupsChart.getData().clear();
                 turn++;
 
 
@@ -369,12 +384,18 @@ public class SimulationScreen extends Application {
 
                 seriesRed.setName("Population red team");
                 seriesRed.getData().add(new XYChart.Data(turn, armyRed.getNumber()));
-              //  lineChart.getData().add(seriesRed);
                 seriesBlue.setName("Population blue team");
                 seriesBlue.getData().add(new XYChart.Data(turn, armyBlue.getNumber()));
-                lineChart.getData().addAll(seriesRed, seriesBlue);
+                populationChart.getData().addAll(seriesRed, seriesBlue);
+
+                seriesGroupsRed.setName("Groups red team");
+                seriesGroupsRed.getData().add(new XYChart.Data(turn, armyRed.getSquads().size()));
+                seriesGroupsBlue.setName("Groups blue team");
+                seriesGroupsBlue.getData().add(new XYChart.Data(turn, armyBlue.getSquads().size()));
+                groupsChart.getData().addAll(seriesGroupsRed, seriesGroupsBlue);
+
             }
-             rootx.getChildren().add(lineChart);
+             rootx.getChildren().addAll(populationChart,groupsChart);
             System.out.println(predictions.whosWinning());
             addTitle();
             addInfos();
