@@ -36,6 +36,47 @@ public class Teams {
     TextField numberField = new TextField();
     TextField squadsField = new TextField();
 
+    public void writeWarning(String warrior){
+        String s1="";
+        String s2="";
+
+        for (ArmorTypes types : ArmorTypes.values()) {
+            if (types.getWarrior().equals(warrior) && s1.equals(""))
+                s1 = types.getArmor();
+            else if (types.getWarrior().equals(warrior) && !s1.equals("")) {
+                s2 = types.getArmor();
+                break;
+            }
+        }
+        Text t = new Text("Wrong armor chosen! "+s1+" or "+s2+" allowed!");
+        t.setX(80);
+        t.setY(80);
+        t.setFill(Color.RED);
+        t.setFont(Font.font(10));
+        root.getChildren().addAll(t);
+    }
+    public void writeWarning2(String warrior){
+        String s1="";
+        String s2="";
+
+        for (WeaponTypes types : WeaponTypes.values()) {
+            if (types.getWarrior().equals(warrior) && s1.equals(""))
+                s1 = types.getWeapon();
+            else if (types.getWarrior().equals(warrior) && !s1.equals("")) {
+                s2 = types.getWeapon();
+                break;
+            }
+
+        }
+        Text t = new Text("Wrong weapon chosen! "+s1+" or "+s2+" allowed!");
+        t.setX(80);
+        t.setY(100);
+        t.setFill(Color.RED);
+        t.setFont(Font.font(10));
+        root.getChildren().addAll(t);
+    }
+
+
     public void addWarriorPanel() {
 
         for (ArmyTypes armies : ArmyTypes.values()) {
@@ -44,7 +85,7 @@ public class Teams {
         }
 
         HBox hbox = new HBox(warriorButton);
-        hbox.setLayoutX(40);
+        hbox.setLayoutX(60);
         hbox.setLayoutY(120);
         root.getChildren().addAll(hbox);
         pickWarrior();
@@ -84,7 +125,7 @@ public class Teams {
         }
 
         HBox hbox = new HBox(armorButton);
-        hbox.setLayoutX(140);
+        hbox.setLayoutX(250);
         hbox.setLayoutY(120);
         root.getChildren().addAll(hbox);
         pickArmor();
@@ -95,23 +136,34 @@ public class Teams {
             armorButton.getItems().forEach(
                     menuItem -> menuItem.setOnAction(
                             event -> {
+                                boolean flag=false;
                                 army.setArmor(menuItem.getText());
+
                                 for (ArmorTypes types : ArmorTypes.values()) { // TODO mozliwa optymalizacja? MALO WAZNE
                                     if(types.getWarrior() == army.getWarrior()){
                                         if(types.getArmor() == army.getArmor()) {
+                                            flag=true;
                                             army.setArmorStats(types.getArmorStats());
                                             army.setAgility(army.getAgility() + types.getAgility());
                                             armorButton.setText(types.getArmor());
                                         }
                                     }
+                                    if(flag)
+                                        break;
+                                }
+                                if(flag==false)
+                                {
+                                    writeWarning(army.getWarrior());
+
                                 }
                             }
+
+
                     ));
         } catch (Exception e){
             System.out.println("ERROR: Armor picking incorrect.");
         }
     }
-
     public void addWeaponPanel() {
         try {
             for (WeaponTypes weapons : WeaponTypes.values()) {
@@ -123,7 +175,7 @@ public class Teams {
         }
 
         HBox hbox = new HBox(weaponButton);
-        hbox.setLayoutX(240);
+        hbox.setLayoutX(440);
         hbox.setLayoutY(120);
         root.getChildren().addAll(hbox);
         pickWeapon();
@@ -134,13 +186,18 @@ public class Teams {
             weaponButton.getItems().forEach(
                     menuItem -> menuItem.setOnAction(
                             event -> {
+                                boolean flag=false;
                                 army.setWeapon(menuItem.getText());
                                 for (WeaponTypes types : WeaponTypes.values()) {
                                     if(types.getWarrior() == army.getWarrior() && types.getWeapon() == army.getWeapon()){
+                                        flag=true;
                                         army.setAttack(types.getAttack());
                                         army.setAttackSpeed(army.getAttackSpeed() + types.getAttackSpeed());
                                         weaponButton.setText(types.getWeapon());
                                     }
+                                }
+                                if(flag==false) {
+                                    writeWarning2(army.getWarrior());
                                 }
                             }
                     ));
@@ -149,13 +206,14 @@ public class Teams {
         }
     }
 
+
     public void addNumberPanel() {
         HBox hbox = new HBox(numberField);
-        hbox.setLayoutX(340);
-        hbox.setLayoutY(120);       // TODO POZMIENIAC WSZEDZIE TE HARDKODOWANE INFORMACJE NA TE Z ENUMA MARII
+        hbox.setLayoutX(100);
+        hbox.setLayoutY(190);       // TODO POZMIENIAC WSZEDZIE TE HARDKODOWANE INFORMACJE NA TE Z ENUMA MARII
         HBox hboxbutton = new HBox(addingNumberButton);
-        hboxbutton.setLayoutX(400);
-        hboxbutton.setLayoutY(160);
+        hboxbutton.setLayoutX(140);
+        hboxbutton.setLayoutY(230);
         root.getChildren().addAll(hbox);
         root.getChildren().addAll(hboxbutton);
         pickNumber();
@@ -173,11 +231,11 @@ public class Teams {
 
     public void addSquadPanel() {
         HBox hbox = new HBox(squadsField);
-        hbox.setLayoutX(340);
-        hbox.setLayoutY(200);       // TODO POZMIENIAC WSZEDZIE TE HARDKODOWANE INFORMACJE NA TE Z ENUMA MARII
+        hbox.setLayoutX(310);
+        hbox.setLayoutY(190);       // TODO POZMIENIAC WSZEDZIE TE HARDKODOWANE INFORMACJE NA TE Z ENUMA MARII
         HBox hboxbutton = new HBox(addingSquadsButton);
-        hboxbutton.setLayoutX(400);
-        hboxbutton.setLayoutY(240);
+        hboxbutton.setLayoutX(325);
+        hboxbutton.setLayoutY(230);
         root.getChildren().addAll(hbox);
         root.getChildren().addAll(hboxbutton);
         pickSquadNumber();

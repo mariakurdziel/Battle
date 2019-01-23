@@ -1,6 +1,10 @@
 package sample;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -16,6 +20,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import sample.SetTypes.ArmyTypes;
 
 import java.util.Scanner;
@@ -146,8 +151,8 @@ public class SimulationScreen extends Application {
 
             Circle c1 = new Circle(x, y, radius);
             x += widthY;
-            c1.setStroke(Color.BLUE);
-            c1.setFill(Color.BLUE);
+            c1.setStroke(Color.WHITE);
+            c1.setFill(Color.WHITE);
             c1.setStrokeWidth(1);
             rootx.getChildren().add(c1);
         }
@@ -168,18 +173,70 @@ public class SimulationScreen extends Application {
                 y = y + widthY;
             }
 
-            Circle c1 = new Circle(x, y, radius);
+            /*Circle c1 = new Circle(x, y, radius);
+            x += widthY;
+            c1.setStroke(Color.RED);
+            c1.setFill(Color.RED);
+            c1.setStrokeWidth(1);
+            rootx.getChildren().add(c1);*/
+        }
+    }
+
+    public void moveArmyRed(double speed){
+
+        int x = 100;
+        int y = 600;
+        int widthY = 15;
+        for (int i = 0; i < armyRed.getSquads().size(); i++) {
+
+            Circle c1 = new Circle(x, y, 5.0);
             x += widthY;
             c1.setStroke(Color.RED);
             c1.setFill(Color.RED);
             c1.setStrokeWidth(1);
             rootx.getChildren().add(c1);
+            Bounds bounds = rootx.getBoundsInLocal();
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(speed), new KeyValue((c1.centerYProperty()), (bounds.getMaxY()+c1.getRadius())/2+50)));
+            timeline.setCycleCount(1);
+            timeline.play();
+            //System.out.println(c1.getLayoutY());
+
         }
+
+
     }
+
+    public void moveArmyBlue(double speed){
+
+        int x = 100;
+        int y = 200;
+        int widthY = 15;
+        for (int i = 0; i < armyBlue.getSquads().size(); i++) {
+
+
+
+            Circle c1 = new Circle(x, y, 5.0);
+            x += widthY;
+            c1.setStroke(Color.BLUE);
+            c1.setFill(Color.BLUE);
+            c1.setStrokeWidth(1);
+            rootx.getChildren().add(c1);
+            Bounds bounds = rootx.getBoundsInLocal();
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new KeyValue(c1.centerYProperty(), (bounds.getMaxY()-c1.getRadius())/2)));
+            timeline.setCycleCount(1);
+            timeline.play();
+
+        }
+
+
+    }
+
 
     public void start() {
         printArmyBlue();
         printArmyRed();
+        moveArmyBlue(armyBlue.getAttackSpeed());
+        moveArmyRed(armyRed.getAttackSpeed());
         for (int i = 0; i < armyRed.getSquads().size(); i++) {
             System.out.println("Czerwoni, oddzial: " + i + ", populacja: " + armyRed.getSquads().get(i).getPopulation()
                     + ", zycie: " + armyRed.getSquads().get(i).getHealth()

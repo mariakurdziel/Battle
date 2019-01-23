@@ -3,8 +3,8 @@ package sample;
 public enum UIHandler {
 
 
-    BUTTON_ACCEPT_TEAMR("BUTTON_ARMR","Ok","Settings","SCENE2","ROOT4",215,260),
-    BUTTON_ACCEPT_TEMAB("BUTTON_ARMB","Ok","Settings","SCENE2","ROOT3",215,260),
+    BUTTON_ACCEPT_TEAMR("BUTTON_ARMR","Ok","Settings","SCENE2","ROOT4",215,300),
+    BUTTON_ACCEPT_TEMAB("BUTTON_ARMB","Ok","Settings","SCENE2","ROOT3",215,300),
     BUTTON_START("BUTTON","Start","Settings","SCENE2","ROOT1",215,200),
     BUTTON_BLUE("BUTTON","Blue team","Blue team","SCENE3","ROOT2",215,130),
     BUTTON_RED("BUTTON","Red team","Red team","SCENE4","ROOT2",215,200),
