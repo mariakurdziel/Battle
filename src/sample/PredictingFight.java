@@ -5,6 +5,7 @@ import sample.SetTypes.ArmorTypes;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class PredictingFight {
@@ -16,21 +17,39 @@ public class PredictingFight {
     public double solution;
     public double blueHealth;
     public double redHealth;
-//    private ArrayList areKilled = new ArrayList<Squads>();
     public int isEnd;
 
     public void updateInfo(Army blue, Army red){
-        searchForEnemySquads(blue, red);
-        for (Squads sqd : blue.getSquads()) {
-             //   changingMorale(sqd, sqd.getAttackedSquad());
-                summaryHealth(sqd, sqd.getAttackedSquad());
-                killingEnemy(blue, sqd, sqd.getAttackedSquad());
+        List<Squads> toKill = new ArrayList();
+        if(blue.getNumber() == 0 || red.getNumber() == 0){
+            isEnd = 1;
+        }
+        else {
+            for (Squads sqd : blue.getSquads()) {
+                if (sqd.getPopulation() > 0) {
+                    searchForEnemySquads(sqd, red);
+                    changingMorale(sqd, sqd.getAttackedSquad());
+                    summaryHealth(sqd, sqd.getAttackedSquad());
+                    killingEnemy(blue, sqd, sqd.getAttackedSquad());
+                }
+                if (sqd.getPopulation() <= 0) toKill.add(sqd);
+            }
+            for (Squads sqdKill : toKill) {
+                blue.getSquads().remove(sqdKill);
             }
         }
+    }
+
 
     public boolean isTheEnd(){
         if (isEnd == 1) return true;
         else return false;
+    }
+
+    public String whosWinning(){
+        if(solution > 0) return "Predictions: blue will win";          // blue won
+        else if (solution == 0) return "Predictions: draw";   // draw
+        else return "Predicions: red will win";
     }
 
     public int lanchesterEquation(Army blue, Army red) {
@@ -54,13 +73,11 @@ public class PredictingFight {
 
     public void changingMorale(Squads blue, Squads red){
 
-//        if ( blue.getPopulation() / red.getPopulation() >= 2.5) { solution = 1; isEnd = 1; }
         if ( blue.getPopulation() / red.getPopulation() >= 2) { red.setMorale(red.getMorale() - 0.5); blue.setMorale(red.getMorale() + 0.5); }
         else if ( blue.getPopulation() / red.getPopulation() > 1.5) {red.setMorale(red.getMorale() - 0.2);blue.setMorale(red.getMorale() + 0.2); }
         else if ( blue.getPopulation() / red.getPopulation() == 1) { red.setMorale(red.getMorale() + 0.0);blue.setMorale(red.getMorale() + 0.0); }
         else if ( blue.getPopulation() / red.getPopulation() < 0.6) { red.setMorale(red.getMorale() + 0.2);blue.setMorale(red.getMorale() - 0.2); }
         else if ( blue.getPopulation() / red.getPopulation() <= 0.5) {red.setMorale(red.getMorale() + 0.5);blue.setMorale(red.getMorale() - 0.5); }
-//        else if ( blue.getPopulation() / red.getPopulation() <= 0.4) { solution = -1; isEnd = 1; }
     }
 
     public void summaryHealth(Squads blue, Squads red){
@@ -84,26 +101,22 @@ public class PredictingFight {
                 if(howManyDied >= 1){
                     blue.setDamageDealt(blue.getDamageDealt() - howManyDied*blueA.getHealthPoints());
                     blue.setPopulation(blue.getPopulation() - howManyDied);
+                    blueA.setNumber(blueA.getNumber() - howManyDied);
                     if(blue.getPopulation() <= 0){
-                       // areKilled
-                       // blueA.getSquads().remove(blue);
-                      //  isEnd = 1;
+
                     }
                 }
             }
-     //       if (blueHealth <= 0) { isEnd = 1; }
         }
     }
 
-    public void searchForEnemySquads(Army blue, Army red){
-        for (Squads squadBlue : blue.getSquads()) {
+    public void searchForEnemySquads(Squads blue, Army red){
+        for (Squads squadRed : red.getSquads()) {
             ArrayList coordsTab = new ArrayList<Integer>();
-            for(Squads squadRed : red.getSquads()){
-                int distance = closestSquad(squadBlue.getX(), squadBlue.getY(), squadRed.getX(), squadRed.getY());
+                int distance = closestSquad(blue.getX(), blue.getY(), squadRed.getX(), squadRed.getY());
                 coordsTab.add(distance);
-            }
             int enemyIndex = coordsTab.indexOf(Collections.min(coordsTab));
-            squadBlue.setAttackedSquad(red.getSquads().get(enemyIndex));
+            blue.setAttackedSquad(red.getSquads().get(enemyIndex));
         }
     }
 

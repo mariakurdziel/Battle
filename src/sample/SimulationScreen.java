@@ -342,11 +342,13 @@ public class SimulationScreen extends Application {
 
             final Scene scene = new Scene(rootx, 1200, 800);
             start();
-         //   while(!predictions.isTheEnd()) {
-           //     System.out.println("-----------------------------");
-             //   update();
+            while(!predictions.isTheEnd()) {
+                System.out.println("--------");
+                System.out.println(predictions.whosWinning());
+                System.out.println("-----------------------------");
+                update();
 
-            //}
+            }
             addTitle();
             addInfos();
             stage.setScene(scene);
