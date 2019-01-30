@@ -32,6 +32,7 @@ public class Main extends Application {
         launch(args);
     }
 
+
     @Override
     public void start(final Stage stage) throws Exception {
 
