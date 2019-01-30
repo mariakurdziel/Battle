@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 
-public class Symulation {
+public class Simulation {
 
     Group root= new Group();
 
@@ -39,10 +39,7 @@ public class Symulation {
     public Group createScene(Group root){
 
         this.root=root;
-
         addTitle();
-
-
         return root;
     }
 
